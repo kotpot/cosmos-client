@@ -1,30 +1,171 @@
 package org.kotpot.cosmos.desktop
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.window.WindowDraggableArea
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import org.kotpot.cosmos.desktop.ui.component.*
+import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
 
 
 @Composable
-@Preview
-fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
 
-    MaterialTheme {
-        Button(onClick = {
-            text = "Hello, Desktop!"
-        }) {
-            Text(text)
+fun App() {
+    var text by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .background(Color.Transparent),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Spacer(modifier = Modifier.weight(0.2f))
+            LargeTextField(
+                textFieldValue = text,
+                onTextFieldValueChange = { text = it },
+                hintText = "Search for something...",
+                modifier = Modifier
+                    .weight(0.6f)
+                    .height(40.dp)
+            )
+            Spacer(modifier = Modifier.weight(0.2f))
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.875f),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            NavigationRail(
+                modifier = Modifier
+                    .weight(0.2f)
+            )
+            MainContent(
+                modifier = Modifier
+                    .weight(0.6f)
+                    .fillMaxHeight()
+                    .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
+                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+            )
+            Column(
+                modifier = Modifier
+                    .weight(0.2f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                MemberList(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+                )
+                SongQueue(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.125f)
+                .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+
         }
     }
 }
 
+@Composable
+fun MainContent(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier
+    ) {
+        Text(text = "Hello, world!")
+    }
+}
+
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
-        App()
+    val windowState = rememberWindowState(
+        width = 1225.dp,
+        height = 736.dp
+    )
+    Window(
+        onCloseRequest = ::exitApplication,
+        state = windowState,
+        title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
+        icon = painterResource("image/logo.svg"),
+        resizable = false,
+        transparent = true,
+        undecorated = true,
+    ) {
+        CosmosTheme {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .background(Color.Transparent)
+                ) {
+                    WindowDraggableArea(
+                        modifier = Modifier
+                            .weight(1f)
+                    ) {
+                        AppTopBar()
+                    }
+                    WindowControl(
+                        modifier = Modifier
+                            .padding(end = 16.dp, top = 16.dp)
+                            .height(56.dp)
+                            .background(Color.Transparent),
+                        onMinimize = { windowState.isMinimized = true },
+                        onMaximize = {
+                            if (windowState.placement == WindowPlacement.Floating) {
+                                windowState.placement = WindowPlacement.Maximized
+                            } else {
+                                windowState.placement = WindowPlacement.Floating
+                            }
+                        },
+                        onClose = { exitApplication() }
+                    )
+                }
+                App()
+            }
+        }
     }
 }

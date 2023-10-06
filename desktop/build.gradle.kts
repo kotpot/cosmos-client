@@ -10,6 +10,7 @@ version = providers.gradleProperty("version").get()
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation(libs.compose.material3)
 }
 
 compose.desktop {
@@ -17,8 +18,8 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.kotpot.cosmos.desktop"
-            packageVersion = "1.0.0"
+            packageName = "$group.desktop"
+            packageVersion = version.toString()
         }
     }
 }
