@@ -1,17 +1,20 @@
 package org.kotpot.cosmos.desktop
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -19,12 +22,14 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import org.kotpot.cosmos.desktop.ui.Model.Member
+import org.kotpot.cosmos.desktop.ui.Model.QueueSong
 import org.kotpot.cosmos.desktop.ui.component.*
+import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
 
 
 @Composable
-
 fun App() {
     var text by remember { mutableStateOf("") }
 
@@ -58,16 +63,26 @@ fun App() {
                 .weight(0.875f),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            NavigationRail(
+            Column(
                 modifier = Modifier
                     .weight(0.2f)
-            )
+            ) {
+                NavigationRail()
+                Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    painter = painterResource("image/album_cover.png"),
+                    contentDescription = "Album cover",
+                    modifier = Modifier
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp)),
+                )
+            }
             MainContent(
                 modifier = Modifier
                     .weight(0.6f)
                     .fillMaxHeight()
-                    .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
-                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+                    .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
+                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small),
             )
             Column(
                 modifier = Modifier
@@ -81,6 +96,7 @@ fun App() {
                         .weight(1f)
                         .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+                    members = memberList
                 )
                 SongQueue(
                     modifier = Modifier
@@ -88,19 +104,19 @@ fun App() {
                         .weight(1f)
                         .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+                    songs = queueSongList
                 )
             }
         }
-        Row(
+        BottomControlBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.125f)
-                .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-
-        }
+                .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            bottomControlBarState = bottomControlBarState
+        )
     }
 }
 
@@ -116,10 +132,12 @@ fun MainContent(
 }
 
 fun main() = application {
+
     val windowState = rememberWindowState(
         width = 1225.dp,
         height = 736.dp
     )
+
     Window(
         onCloseRequest = ::exitApplication,
         state = windowState,
@@ -130,12 +148,26 @@ fun main() = application {
         undecorated = true,
     ) {
         CosmosTheme {
+            val primary = MaterialTheme.colorScheme.primary
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
                     .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
             ) {
+                Canvas(
+                    modifier = Modifier
+                        .size(800.dp)
+                        .align(Alignment.BottomEnd)
+                        .alpha(0.1f),
+                    onDraw = {
+                        drawCircle(
+                            Brush.radialGradient(
+                                listOf(primary, Color.Transparent),
+                            )
+                        )
+                    }
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -150,7 +182,7 @@ fun main() = application {
                     }
                     WindowControl(
                         modifier = Modifier
-                            .padding(end = 16.dp, top = 16.dp)
+                            .padding(end = 8.dp, top = 8.dp)
                             .height(56.dp)
                             .background(Color.Transparent),
                         onMinimize = { windowState.isMinimized = true },
@@ -169,3 +201,46 @@ fun main() = application {
         }
     }
 }
+
+val bottomControlBarState = BottomControlBarState(
+    title = "きらめき＊Chocolaterie",
+    artist = "KyoKa",
+    playedLength = 65000,
+    songLength = 180000,
+    volume = 0.5f,
+    isPaused = false
+)
+
+val memberList = listOf(
+    Member(
+        avatar = "image/avatar.jpg",
+        name = "Hoshino",
+        role = "moderator",
+    ),
+    Member(
+        avatar = "image/avatar.jpg",
+        name = "Shiroko",
+        role = "user",
+    )
+)
+
+val queueSongList = listOf(
+    QueueSong(
+        albumCover = "image/album_cover.png",
+        title = "きらめき＊Chocolaterie",
+        artist = "KyoKa",
+        songLength = 214000
+    ),
+    QueueSong(
+        albumCover = "image/album_cover.png",
+        title = "きらめき＊Chocolaterie",
+        artist = "KyoKa",
+        songLength = 214000
+    ),
+    QueueSong(
+        albumCover = "image/album_cover.png",
+        title = "きらめき＊Chocolaterie",
+        artist = "KyoKa",
+        songLength = 214000
+    )
+)

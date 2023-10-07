@@ -1,10 +1,11 @@
 package org.kotpot.cosmos.desktop.ui.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -13,13 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
 
 enum class NavRailItem(val icon: String, val filledIcon: String, val title: String, val selected: Boolean = false) {
     HOME(
@@ -45,20 +43,13 @@ enum class NavRailItem(val icon: String, val filledIcon: String, val title: Stri
 fun NavigationRail(
     modifier: Modifier = Modifier
 ) {
-    Column(modifier) {
-        LazyColumn {
-            items(NavRailItem.entries.size) {
-                NavRailItem(NavRailItem.entries[it])
-            }
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier
+    ) {
+        items(NavRailItem.entries.size) {
+            NavRailItem(NavRailItem.entries[it])
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painter = painterResource("image/album.jpg"),
-            contentDescription = "Album cover",
-            modifier = Modifier
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
-                .clip(RoundedCornerShape(8.dp))
-        )
     }
 }
 
@@ -67,7 +58,6 @@ fun NavRailItem(item: NavRailItem) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp)
             .background(
                 when (item.selected) {
                     true -> MaterialTheme.colorScheme.primaryContainer

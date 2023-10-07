@@ -3,12 +3,22 @@ package org.kotpot.cosmos.desktop.ui.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.kotpot.cosmos.desktop.ui.theme.raleway
+import org.kotpot.cosmos.desktop.ui.theme.Monorale
 
 @Composable
 fun AppTopBar() {
@@ -42,7 +52,7 @@ fun Logo(
             text = "cosmos",
             fontSize = 22.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontFamily = raleway,
+            fontFamily = Monorale,
             fontWeight = FontWeight.SemiBold
         )
         Image(
@@ -60,29 +70,82 @@ fun WindowControl(
     onMaximize: () -> Unit,
     onClose: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
+
     Row(modifier) {
-        Icon(
-            painter = painterResource("icon/ic_horizontal_rule.svg"),
-            contentDescription = "Minimize",
+        Column(
             modifier = Modifier
+                .size(40.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .clickable { onMinimize() }
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Icon(
-            painter = painterResource("icon/ic_stack.svg"),
-            contentDescription = "Maximize",
+                .clickable { onMinimize() },
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource("icon/ic_horizontal_rule.svg"),
+                contentDescription = "Minimize",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Column(
             modifier = Modifier
+                .size(40.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .clickable { onMaximize() }
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Icon(
-            painter = painterResource("icon/ic_close.svg"),
-            contentDescription = "Close",
-            modifier = Modifier
-                .clip(RoundedCornerShape(4.dp))
-                .clickable { onClose() }
-        )
+                .clickable { onMaximize() },
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painterResource("icon/ic_stack.svg"),
+                contentDescription = "Maximize",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        CompositionLocalProvider(LocalRippleTheme provides ErrorRippleTheme) {
+            Column(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(
+                        when (isHovered) {
+                            true -> MaterialTheme.colorScheme.error
+                            false -> Color.Transparent
+                        },
+                        RoundedCornerShape(4.dp)
+                    )
+                    .clip(RoundedCornerShape(4.dp))
+                    .clickable { onClose() }
+                    .hoverable(interactionSource),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    painter = painterResource("icon/ic_close.svg"),
+                    contentDescription = "Close",
+                    tint = when (isHovered) {
+                        true -> MaterialTheme.colorScheme.onError
+                        false -> MaterialTheme.colorScheme.onSurface
+                    }
+                )
+            }
+
+        }
     }
+}
+
+private object ErrorRippleTheme : RippleTheme {
+    @Composable
+    override fun defaultColor() =
+        RippleTheme.defaultRippleColor(
+            Color(0xFFBA1A1A),
+            lightTheme = true
+        )
+
+    @Composable
+    override fun rippleAlpha() = RippleAlpha(
+        pressedAlpha = 0.24f,
+        focusedAlpha = 0.24f,
+        draggedAlpha = 0.16f,
+        hoveredAlpha = 0.16f
+    )
 }

@@ -1,6 +1,5 @@
 package org.kotpot.cosmos.desktop.ui.component
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -13,12 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import org.kotpot.cosmos.desktop.ui.theme.raleway
 
 @Composable
 fun ListCard(
@@ -30,8 +25,8 @@ fun ListCard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.small),
+            .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small),
     ) {
         Row(
             modifier = Modifier
@@ -45,24 +40,12 @@ fun ListCard(
             )
             Text(
                 text = title,
-                style = TextStyle(
-                    fontFamily = raleway,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    letterSpacing = 0.15.sp
-                ),
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = "  $additionalText",
-                style = TextStyle(
-                    fontFamily = raleway,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    lineHeight = 24.sp,
-                    letterSpacing = 0.15.sp
-                ),
+                text = " - $additionalText",
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
