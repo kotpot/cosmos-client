@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.kotpot.cosmos.desktop.ui.model.Member
+import org.kotpot.cosmos.desktop.model.Member
 
 @Composable
 fun MemberList(

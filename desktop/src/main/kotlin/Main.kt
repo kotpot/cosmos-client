@@ -22,8 +22,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import org.kotpot.cosmos.desktop.ui.model.Member
-import org.kotpot.cosmos.desktop.ui.model.QueueSong
+import org.kotpot.cosmos.desktop.model.Member
+import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.component.*
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme

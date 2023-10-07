@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.model
+package org.kotpot.cosmos.desktop.model
 
 data class Member(
     val avatar: String,
