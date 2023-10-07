@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.kotpot.cosmos.desktop.ui.Model.QueueSong
+import org.kotpot.cosmos.desktop.ui.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.util.formatMilliseconds
 
 @Composable

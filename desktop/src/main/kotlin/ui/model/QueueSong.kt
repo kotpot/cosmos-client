@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.Model
+package org.kotpot.cosmos.desktop.ui.model
 
 data class QueueSong(
     val albumCover: String,
