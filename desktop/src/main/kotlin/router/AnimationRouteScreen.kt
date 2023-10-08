@@ -1,30 +1,26 @@
 package org.kotpot.cosmos.desktop.router
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 
+private const val DEFAULT_ANIME_DURATION = 300
 
 @Composable
 fun <T : RouterDefine> AnimationRouteScreen(
     controller: RouteController<T>,
+    enter: EnterTransition = fadeIn(tween(DEFAULT_ANIME_DURATION)),
+    exit: ExitTransition = fadeOut(snap(DEFAULT_ANIME_DURATION)),
     screen: @Composable (T) -> Unit
 ) {
 
-    Box(Modifier.fillMaxSize()) {
-        for (router in controller.routers) {
-            AnimatedVisibility(
-                visible = controller.curRoute == router,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                screen(router)
-            }
+    AnimatedContent(
+        targetState = controller.curRouteState.value,
+        transitionSpec = {
+            enter togetherWith exit
         }
+    ) {
+        screen(it)
     }
 
 }

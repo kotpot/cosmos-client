@@ -1,16 +1,13 @@
 package org.kotpot.cosmos.desktop.router
 
-import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.State
 
 
 typealias Callback<T> = (T) -> Unit
 
 interface RouteController<T : RouterDefine> {
 
-    val stack: SnapshotStateList<T>
-    val curRoute get() = stack.lastOrNull()
-
-    val routers: Array<T>
+    val curRouteState: State<T>
 
     fun push(route: T)
 

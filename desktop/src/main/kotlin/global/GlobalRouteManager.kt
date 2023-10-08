@@ -8,7 +8,7 @@ object GlobalRouteManager {
 
 
     // TODO lazy init router
-    val controller = AnimationRouteController(GlobalRouter.entries.toTypedArray(), GlobalRouter.Startup)
+    val controller = AnimationRouteController(GlobalRouter.Startup)
 
     fun animeToSetup() {
         controller.replace(GlobalRouter.Setup)

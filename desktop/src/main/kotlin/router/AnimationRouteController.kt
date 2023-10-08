@@ -1,43 +1,47 @@
 package org.kotpot.cosmos.desktop.router
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import java.util.LinkedList
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import java.util.*
 
 class AnimationRouteController<T : RouterDefine>(
-    override val routers: Array<T>,
     initRouter: T
 ) : RouteController<T> {
 
-    private val mutableRouteStack = mutableStateListOf(initRouter)
-    override val stack: SnapshotStateList<T> = mutableRouteStack
+    private val stack: Deque<T> = LinkedList(listOf(initRouter))
+
+    private val _curRouteState = mutableStateOf(initRouter)
+    override val curRouteState: State<T> = _curRouteState
 
     private val _pushObs = LinkedList<Callback<T>>()
     private val _popObs = LinkedList<Callback<T>>()
 
     override fun push(route: T) {
-        stack.add(stack.lastIndex, route)
+        stack.push(route)
         for (obs in _pushObs) {
             obs.invoke(route)
         }
+        _curRouteState.value = stack.last
     }
 
     override fun pop() {
-        val item = stack.removeLast()
+        val item = stack.pop()
         for (obs in _popObs) {
             obs.invoke(item)
         }
+        _curRouteState.value = stack.last
     }
 
     fun replace(route: T) {
-        val old = stack.removeLast()
-        stack.add(route)
+        val item = stack.pop()
+        for (obs in _popObs) {
+            obs.invoke(item)
+        }
+        stack.push(route)
         for (obs in _pushObs) {
             obs.invoke(route)
         }
-        for (obs in _popObs) {
-            obs.invoke(old)
-        }
+        _curRouteState.value = stack.last
     }
 
     override fun onPop(callback: Callback<T>) {

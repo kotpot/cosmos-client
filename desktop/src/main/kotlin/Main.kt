@@ -25,7 +25,9 @@ fun main() = application {
     ) {
         CosmosTheme {
             // Navigation
-            AnimationRouteScreen(GlobalRouteManager.controller) {
+            AnimationRouteScreen(
+                GlobalRouteManager.controller,
+            ) {
                 GlobalRouteScreen(it)
             }
         }
