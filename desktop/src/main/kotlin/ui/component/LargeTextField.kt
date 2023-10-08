@@ -24,29 +24,33 @@ import org.kotpot.cosmos.desktop.ui.theme.Monorale
 fun LargeTextField(
     textFieldValue: String,
     onTextFieldValueChange: (String) -> Unit,
+    showSearchIcon: Boolean,
     hintText: String,
     modifier: Modifier = Modifier
 ) {
 
-    Column(modifier){
+    Column(modifier) {
         Row(
             modifier = Modifier
                 .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), RoundedCornerShape(24.dp))
                 .background(MaterialTheme.colorScheme.surface.copy(0.72f), RoundedCornerShape(24.dp)),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource("icon/ic_search.svg"),
-                contentDescription = "Search",
-                modifier = Modifier
-                    .padding(start = 16.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
-            )
+            if (showSearchIcon) {
+                Icon(
+                    painter = painterResource("icon/ic_search.svg"),
+                    contentDescription = "Search",
+                    modifier = Modifier
+                        .padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 8.dp)
+                )
+            }
             BasicTextField(
                 value = textFieldValue,
                 onValueChange = { onTextFieldValueChange(it) },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 16.dp),
+                modifier = when (showSearchIcon) {
+                    true -> Modifier.weight(1f).padding(end = 12.dp)
+                    false -> Modifier.weight(1f).padding(horizontal = 12.dp)
+                },
                 singleLine = true,
                 textStyle = TextStyle(
                     fontFamily = Monorale,

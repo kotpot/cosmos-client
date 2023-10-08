@@ -8,6 +8,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -26,19 +27,46 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.FrameWindowScope
+import androidx.compose.ui.window.WindowPlacement
+import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.ui.theme.Monorale
 
+
 @Composable
-fun AppTopBar() {
+fun FrameWindowScope.AppTopBar(
+    windowState: WindowState,
+    exitApplication: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp)
             .background(Color.Transparent)
     ) {
-        Logo(
+        WindowDraggableArea(
             modifier = Modifier
-                .padding(start = 28.dp, top = 21.dp)
+                .weight(1f)
+        ) {
+            Logo(
+                modifier = Modifier
+                    .padding(start = 28.dp, top = 21.dp)
+            )
+        }
+        WindowControl(
+            modifier = Modifier
+                .padding(end = 8.dp, top = 8.dp)
+                .height(56.dp)
+                .background(Color.Transparent),
+            onMinimize = { windowState.isMinimized = true },
+            onMaximize = {
+                if (windowState.placement == WindowPlacement.Floating) {
+                    windowState.placement = WindowPlacement.Maximized
+                } else {
+                    windowState.placement = WindowPlacement.Floating
+                }
+            },
+            onClose = { exitApplication() }
         )
     }
 }
