@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui
+package org.kotpot.cosmos.desktop.ui.page
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
