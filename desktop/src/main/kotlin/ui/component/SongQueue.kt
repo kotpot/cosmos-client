@@ -14,6 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.model.QueueSong
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
 import org.kotpot.cosmos.desktop.ui.util.formatMilliseconds
 
 @Composable
@@ -25,7 +27,7 @@ fun SongQueue(
         modifier
     ) {
         ListCard(
-            icon = "icon/ic_queue_music.svg",
+            icon = CosmosIcons.QueueMusic,
             title = "Queue",
             additionalText = "${songs.size} - ${songs.sumOf { it.songLength }.formatMilliseconds()}"
         ) {

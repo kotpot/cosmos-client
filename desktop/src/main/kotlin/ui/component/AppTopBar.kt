@@ -30,6 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowState
+import org.kotpot.cosmos.desktop.ui.icon.Close
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.HorizontalRule
+import org.kotpot.cosmos.desktop.ui.icon.Stack
 import org.kotpot.cosmos.desktop.ui.theme.Monorale
 
 
@@ -111,7 +115,7 @@ fun WindowControl(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource("icon/ic_horizontal_rule.svg"),
+                imageVector = CosmosIcons.HorizontalRule,
                 contentDescription = "Minimize",
                 tint = MaterialTheme.colorScheme.onSurface
             )
@@ -125,7 +129,7 @@ fun WindowControl(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource("icon/ic_stack.svg"),
+                imageVector = CosmosIcons.Stack,
                 contentDescription = "Maximize",
                 tint = MaterialTheme.colorScheme.onSurface
             )
@@ -148,7 +152,7 @@ fun WindowControl(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
-                    painter = painterResource("icon/ic_close.svg"),
+                    imageVector = CosmosIcons.Close,
                     contentDescription = "Close",
                     tint = when (isHovered) {
                         true -> MaterialTheme.colorScheme.onError

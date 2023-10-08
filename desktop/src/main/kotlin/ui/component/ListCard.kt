@@ -11,13 +11,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.ExpandLess
 
 @Composable
 fun ListCard(
-    icon: String,
+    icon: ImageVector,
     title: String,
     additionalText: String,
     listContent: LazyListScope.() -> Unit
@@ -33,7 +35,7 @@ fun ListCard(
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Icon(
-                painter = painterResource(icon),
+                imageVector = icon,
                 contentDescription = "Icon",
                 modifier = Modifier
                     .padding(end = 6.dp)
@@ -51,7 +53,7 @@ fun ListCard(
             )
             Spacer(modifier = Modifier.weight(1f))
             Icon(
-                painter = painterResource("icon/ic_expand_more.svg"),
+                imageVector = CosmosIcons.ExpandLess,
                 contentDescription = "Expand More"
             )
         }

@@ -1,6 +1,5 @@
 package org.kotpot.cosmos.desktop.ui.component
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,31 +14,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.Home
+import org.kotpot.cosmos.desktop.ui.icon.MusicLibrary
+import org.kotpot.cosmos.desktop.ui.icon.Setting
 
-enum class NavRailItem(val icon: String, val filledIcon: String, val title: String, val selected: Boolean = false) {
+enum class NavRailItem(
+    val icon: ImageVector,
+    val filledIcon: ImageVector,
+    val title: String,
+    val selected: Boolean = false
+) {
     HOME(
-        icon = "icon/ic_home.svg",
-        filledIcon = "icon/ic_home_fill.svg",
+        icon = CosmosIcons.Home,
+        filledIcon = CosmosIcons.Filled.Home,
         title = "Home",
         selected = true
     ),
     LIBRARY(
-        icon = "icon/ic_music_library.svg",
-        filledIcon = "icon/ic_music_library_fill.svg",
+        icon = CosmosIcons.MusicLibrary,
+        filledIcon = CosmosIcons.Filled.MusicLibrary,
         title = "Library"
     ),
     SETTINGS(
-        icon = "icon/ic_settings.svg",
-        filledIcon = "icon/ic_settings_fill.svg",
+        icon = CosmosIcons.Setting,
+        filledIcon = CosmosIcons.Filled.Setting,
         title = "Settings"
     )
 }
 
 @Composable
-@Preview
 fun NavigationRail(
     modifier: Modifier = Modifier
 ) {
@@ -67,9 +74,9 @@ fun NavRailItem(item: NavRailItem) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            painter = when (item.selected) {
-                true -> painterResource(item.filledIcon)
-                false -> painterResource(item.icon)
+            imageVector = when (item.selected) {
+                true -> item.filledIcon
+                false -> item.icon
             },
             contentDescription = item.title,
             modifier = Modifier

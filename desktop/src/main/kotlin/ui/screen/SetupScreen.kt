@@ -19,6 +19,8 @@ import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.ui.component.AppTopBar
 import org.kotpot.cosmos.desktop.ui.component.LargeTextField
 import org.kotpot.cosmos.desktop.ui.component.SimpleButton
+import org.kotpot.cosmos.desktop.ui.icon.ArrowForward
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.theme.Monorale
 
 @Composable
@@ -74,7 +76,7 @@ fun FrameWindowScope.Setup(
             )
             SimpleButton(
                 text = "JOIN",
-                icon = "icon/ic_arrow_forward.svg",
+                icon = CosmosIcons.ArrowForward,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
                     .clickable { }
