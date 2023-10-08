@@ -34,9 +34,9 @@ fun main() = application {
     }
 }
 
-context(FrameWindowScope)
+context(FrameWindowScope, ApplicationScope)
 @Composable
-private fun ApplicationScope.GlobalRouteScreen(router: GlobalRouter) {
+private fun GlobalRouteScreen(router: GlobalRouter) {
     when (router) {
         GlobalRouter.Startup -> Startup()
 
