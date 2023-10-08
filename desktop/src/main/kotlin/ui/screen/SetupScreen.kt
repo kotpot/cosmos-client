@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
+import org.kotpot.cosmos.desktop.locale.CurrentLocale.S
 import org.kotpot.cosmos.desktop.ui.component.AppTopBar
 import org.kotpot.cosmos.desktop.ui.component.LargeTextField
 import org.kotpot.cosmos.desktop.ui.component.SimpleButton
@@ -45,7 +46,7 @@ fun FrameWindowScope.SetupScreen(
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "Let’s listen together",
+            text = S.setupTitle,
             style = TextStyle(
                 fontFamily = Monorale,
                 fontSize = 64.sp,
@@ -55,7 +56,7 @@ fun FrameWindowScope.SetupScreen(
             modifier = Modifier.padding(bottom = 24.dp)
         )
         Text(
-            text = "Enter your broadcast server link down below to get started",
+            text = S.setupHint,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )
