@@ -18,7 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
-import org.kotpot.cosmos.desktop.locale.CurrentLocale.S
+import org.kotpot.cosmos.desktop.locale.locale
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.component.*
@@ -77,7 +78,7 @@ fun MainScreenContent() {
             LargeTextField(
                 textFieldValue = text,
                 onTextFieldValueChange = { text = it },
-                hintText = S.searchHint,
+                hintText = LocaleString::searchHint.locale(),
                 showSearchIcon = true,
                 modifier = Modifier
                     .weight(0.6f)

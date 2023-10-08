@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.locale
+package org.kotpot.cosmos.desktop.locale.string
 
 class LocaleStringZh : LocaleStringEn() {
 
