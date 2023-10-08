@@ -46,8 +46,7 @@ fun main() = application {
             ) {
                 AnimationRouteScreen(
                     GlobalRouteManager.controller,
-                    enter = fadeIn(animationSpec = tween(500)),
-                    exit = fadeOut(animationSpec = tween(500))
+                    GlobalRouter.entries.toTypedArray()
                 ) {
                     GlobalRouteScreen(it)
                 }
