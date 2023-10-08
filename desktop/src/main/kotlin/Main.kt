@@ -20,6 +20,8 @@ import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.global.GlobalRouter
 import org.kotpot.cosmos.desktop.global.GlobalWindowManager
 import org.kotpot.cosmos.desktop.router.AnimationRouteScreen
+import org.kotpot.cosmos.desktop.router.defaultRouteScreenEnter
+import org.kotpot.cosmos.desktop.router.defaultRouteScreenExit
 import org.kotpot.cosmos.desktop.ui.screen.MainScreen
 import org.kotpot.cosmos.desktop.ui.screen.SetupScreen
 import org.kotpot.cosmos.desktop.ui.screen.Startup
@@ -46,7 +48,15 @@ fun main() = application {
             ) {
                 AnimationRouteScreen(
                     GlobalRouteManager.controller,
-                    GlobalRouter.entries.toTypedArray()
+                    GlobalRouter.entries.toTypedArray(),
+                    enter = {
+                        if (it == GlobalRouter.Setup) fadeIn(tween(500))
+                        else defaultRouteScreenEnter()
+                    },
+                    exit = {
+                        if (it == GlobalRouter.Startup) fadeOut(tween(500))
+                        else defaultRouteScreenExit()
+                    }
                 ) {
                     GlobalRouteScreen(it)
                 }

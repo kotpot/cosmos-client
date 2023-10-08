@@ -22,7 +22,7 @@ import org.kotpot.cosmos.desktop.ui.theme.Monorale
 fun Startup() {
 
     LaunchedEffect(true) {
-        delay(2000)
+        delay(1000)
         GlobalRouteManager.animeToSetup()
     }
 
@@ -46,7 +46,7 @@ fun Startup() {
             Image(
                 painter = painterResource("image/title_logo.svg"),
                 contentDescription = null,
-                modifier = Modifier.padding(start = 16.dp).height(80.dp).width(52.dp)
+                modifier = Modifier.padding(start = 16.dp).height(80.dp).width(54.dp)
             )
         }
     }
