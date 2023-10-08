@@ -149,7 +149,7 @@ val bottomControlBarState = BottomControlBarState(
     artist = "KyoKa",
     playedLength = 65000,
     songLength = 180000,
-    volume = 0.5f,
+    volume = 50f,
     isPaused = false
 )
 
