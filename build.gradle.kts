@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
 }
@@ -10,5 +12,11 @@ allprojects {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
+
+subprojects {
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
     }
 }
