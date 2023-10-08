@@ -1,9 +1,7 @@
 package org.kotpot.cosmos.desktop.ui.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -134,7 +132,12 @@ fun MusicControl(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        ProgressBar(playedLength.toFloat().div(songLength))
+        Slider(
+            value = playedLength.toFloat().div(songLength),
+            onValueChange = {}, //TODO: LOGIC
+            valueRange = 0f..1f,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
@@ -168,35 +171,16 @@ fun VolumeControl(
             )
             Spacer(Modifier.weight(1f))
             Text(
-                text = "${volume.times(100).toInt()}%",
+                text = "${volume.toInt()}%",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        ProgressBar(volume)
-    }
-}
-
-@Composable
-fun ProgressBar(
-    progress: Float
-) {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(100))
-        ) { }
-        Column(
-            modifier = Modifier
-                .height(3.dp)
-                .fillMaxWidth(progress)
-                .align(Alignment.CenterStart)
-                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(100))
-        ) { }
+        Slider(
+            value = volume,
+            onValueChange = {}, //TODO: LOGIC
+            valueRange = 0f..100f,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
