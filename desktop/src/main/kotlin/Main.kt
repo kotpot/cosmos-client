@@ -1,8 +1,21 @@
 package org.kotpot.cosmos.desktop
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.window.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.ApplicationScope
+import androidx.compose.ui.window.FrameWindowScope
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.global.GlobalRouter
 import org.kotpot.cosmos.desktop.global.GlobalWindowManager
@@ -25,10 +38,19 @@ fun main() = application {
     ) {
         CosmosTheme {
             // Navigation
-            AnimationRouteScreen(
-                GlobalRouteManager.controller,
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
             ) {
-                GlobalRouteScreen(it)
+                AnimationRouteScreen(
+                    GlobalRouteManager.controller,
+                    enter = fadeIn(animationSpec = tween(500)),
+                    exit = fadeOut(animationSpec = tween(500))
+                ) {
+                    GlobalRouteScreen(it)
+                }
             }
         }
     }

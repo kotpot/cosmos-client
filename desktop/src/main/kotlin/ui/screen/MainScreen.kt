@@ -20,8 +20,8 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
-import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.component.*
+import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 
 @Composable
@@ -32,8 +32,6 @@ fun FrameWindowScope.MainScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
-            .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
     ) {
         val primary = MaterialTheme.colorScheme.primary
         Canvas(

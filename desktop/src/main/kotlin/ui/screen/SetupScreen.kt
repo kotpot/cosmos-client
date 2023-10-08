@@ -33,58 +33,51 @@ fun FrameWindowScope.SetupScreen(
         mutableStateOf("")
     }
 
-    Box(
+    AppTopBar(
+        windowState,
+        exitApplication
+    )
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
-            .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
+            .padding(start = 154.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.Start
     ) {
-        AppTopBar(
-            windowState,
-            exitApplication
+        Text(
+            text = "Let’s listen together",
+            style = TextStyle(
+                fontFamily = Monorale,
+                fontSize = 64.sp,
+                lineHeight = 64.sp,
+                fontWeight = FontWeight.SemiBold
+            ),
+            modifier = Modifier.padding(bottom = 24.dp)
         )
-        Column(
+        Text(
+            text = "Enter your broadcast server link down below to get started",
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+        LargeTextField(
+            textFieldValue = text,
+            onTextFieldValueChange = { text = it },
+            hintText = "https://example.com/",
+            showSearchIcon = false,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 154.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "Let’s listen together",
-                style = TextStyle(
-                    fontFamily = Monorale,
-                    fontSize = 64.sp,
-                    lineHeight = 64.sp,
-                    fontWeight = FontWeight.SemiBold
-                ),
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
-            Text(
-                text = "Enter your broadcast server link down below to get started",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
-            LargeTextField(
-                textFieldValue = text,
-                onTextFieldValueChange = { text = it },
-                hintText = "https://example.com/",
-                showSearchIcon = false,
-                modifier = Modifier
-                    .padding(bottom = 64.dp)
-                    .width(450.dp)
-                    .height(40.dp)
-            )
-            SimpleButton(
-                text = "JOIN",
-                icon = CosmosIcons.ArrowForward,
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .clickable { GlobalRouteManager.animeToMain() }
-                    .background(MaterialTheme.colorScheme.primary, MaterialTheme.shapes.small)
-                    .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-        }
+                .padding(bottom = 64.dp)
+                .width(450.dp)
+                .height(40.dp)
+        )
+        SimpleButton(
+            text = "JOIN",
+            icon = CosmosIcons.ArrowForward,
+            modifier = Modifier
+                .clip(MaterialTheme.shapes.small)
+                .clickable { GlobalRouteManager.animeToMain() }
+                .background(MaterialTheme.colorScheme.primary, MaterialTheme.shapes.small)
+                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        )
     }
 }
