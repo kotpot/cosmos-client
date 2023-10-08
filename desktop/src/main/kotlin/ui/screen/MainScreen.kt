@@ -51,7 +51,7 @@ fun FrameWindowScope.MainScreen(
         )
         AppTopBar(
             windowState,
-            { exitApplication() }
+            exitApplication
         )
         MainScreenContent()
     }
