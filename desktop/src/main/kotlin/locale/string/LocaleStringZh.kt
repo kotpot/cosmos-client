@@ -10,4 +10,5 @@ class LocaleStringZh : LocaleStringEn() {
 
     override val searchHint: String =
         "搜索..."
+
 }
