@@ -7,13 +7,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun SimpleButton(
     text: String,
-    icon: String,
+    icon: ImageVector,
     modifier: Modifier
 ) {
     Row(
@@ -27,7 +27,7 @@ fun SimpleButton(
                 .padding(end = 8.dp)
         )
         Icon(
-            painter = painterResource(icon),
+            imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onPrimary
         )

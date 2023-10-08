@@ -20,8 +20,8 @@ import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
+import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.component.*
-import org.kotpot.cosmos.desktop.ui.page.HomePage
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 
 @Composable
@@ -106,7 +106,7 @@ fun MainScreenContent() {
                         .clip(RoundedCornerShape(8.dp)),
                 )
             }
-            HomePage(
+            HomeContent(
                 modifier = Modifier
                     .weight(0.6f)
                     .fillMaxHeight()

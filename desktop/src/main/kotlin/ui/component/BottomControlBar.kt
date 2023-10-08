@@ -10,10 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.ui.icon.*
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 import org.kotpot.cosmos.desktop.ui.util.formatMilliseconds
 
@@ -68,11 +67,10 @@ fun SongInfo(
                 overflow = TextOverflow.Ellipsis
             )
             Icon(
-                painter = painterResource("icon/ic_expand_more.svg"),
+                imageVector = CosmosIcons.ExpandMore,
                 contentDescription = "Expand",
                 modifier = Modifier
                     .padding(start = 6.dp)
-                    .rotate(180f)
             )
         }
         Spacer(Modifier.weight(1f))
@@ -99,24 +97,24 @@ fun MusicControl(
         ) {
             Spacer(Modifier.weight(1f))
             Icon(
-                painter = painterResource("icon/ic_skip_previous.svg"),
+                imageVector = CosmosIcons.SkipPrevious,
                 contentDescription = "Previous"
             )
             Icon(
-                painter = when (isPaused) {
-                    true -> painterResource("icon/ic_play.svg")
-                    false -> painterResource("icon/ic_pause.svg")
+                imageVector = when (isPaused) {
+                    true -> CosmosIcons.Play
+                    false -> CosmosIcons.Pause
                 },
                 contentDescription = "Pause/Resume",
                 modifier = Modifier.clickable { !isPaused } //TODO: LOGIC
             )
             Icon(
-                painter = painterResource("icon/ic_skip_next.svg"),
+                imageVector = CosmosIcons.SkipNext,
                 contentDescription = "Next"
             )
             Spacer(Modifier.weight(1f))
             Icon(
-                painter = painterResource("icon/ic_chat_bubble.svg"),
+                imageVector = CosmosIcons.ChatBubble,
                 contentDescription = "Chat"
             )
         }
@@ -154,7 +152,7 @@ fun VolumeControl(
                 color = MaterialTheme.colorScheme.tertiary
             )
             Icon(
-                painter = painterResource("icon/ic_broadcast.svg"),
+                imageVector = CosmosIcons.Broadcast,
                 contentDescription = "BROADCASTING",
                 tint = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(start = 6.dp).size(24.dp)
@@ -165,7 +163,7 @@ fun VolumeControl(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource("icon/ic_volume_down.svg"),
+                imageVector = CosmosIcons.VolumeDown,
                 contentDescription = "Volume"
             )
             Spacer(Modifier.weight(1f))

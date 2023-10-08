@@ -19,6 +19,9 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.model.Member
+import org.kotpot.cosmos.desktop.ui.icon.Add
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.Group
 
 @Composable
 fun MemberList(
@@ -29,7 +32,7 @@ fun MemberList(
         modifier
     ) {
         ListCard(
-            icon = "icon/ic_group.svg",
+            icon = CosmosIcons.Group,
             title = "Member",
             additionalText = members.size.toString(),
         ) {
@@ -98,7 +101,7 @@ fun InviteItem() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = painterResource("icon/ic_add.svg"),
+                imageVector = CosmosIcons.Add,
                 contentDescription = "Invite",
                 tint = MaterialTheme.colorScheme.outline
             )

@@ -16,13 +16,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
+import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.ui.component.AppTopBar
 import org.kotpot.cosmos.desktop.ui.component.LargeTextField
 import org.kotpot.cosmos.desktop.ui.component.SimpleButton
+import org.kotpot.cosmos.desktop.ui.icon.ArrowForward
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.theme.Monorale
 
 @Composable
-fun FrameWindowScope.Setup(
+fun FrameWindowScope.SetupScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
 ) {
@@ -38,7 +41,7 @@ fun FrameWindowScope.Setup(
     ) {
         AppTopBar(
             windowState,
-            { exitApplication() }
+            exitApplication
         )
         Column(
             modifier = Modifier
@@ -74,10 +77,10 @@ fun FrameWindowScope.Setup(
             )
             SimpleButton(
                 text = "JOIN",
-                icon = "icon/ic_arrow_forward.svg",
+                icon = CosmosIcons.ArrowForward,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
-                    .clickable { }
+                    .clickable { GlobalRouteManager.animeToMain() }
                     .background(MaterialTheme.colorScheme.primary, MaterialTheme.shapes.small)
                     .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
                     .padding(horizontal = 16.dp, vertical = 8.dp)

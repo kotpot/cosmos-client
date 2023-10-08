@@ -1,26 +1,22 @@
 package org.kotpot.cosmos.desktop
 
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
+import androidx.compose.ui.window.*
+import org.kotpot.cosmos.desktop.global.GlobalRouteManager
+import org.kotpot.cosmos.desktop.global.GlobalRouter
+import org.kotpot.cosmos.desktop.global.GlobalWindowManager
+import org.kotpot.cosmos.desktop.router.AnimationRouteScreen
 import org.kotpot.cosmos.desktop.ui.screen.MainScreen
+import org.kotpot.cosmos.desktop.ui.screen.SetupScreen
+import org.kotpot.cosmos.desktop.ui.screen.Startup
 import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
 
 fun main() = application {
 
-    val windowState = rememberWindowState(
-        position = WindowPosition.Aligned(Alignment.Center),
-        width = 1225.dp,
-        height = 736.dp
-    )
-
     Window(
         onCloseRequest = ::exitApplication,
-        state = windowState,
+        state = GlobalWindowManager.windowState,
         title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
         icon = painterResource("image/logo.svg"),
         resizable = false,
@@ -29,10 +25,29 @@ fun main() = application {
     ) {
         CosmosTheme {
             // Navigation
-            MainScreen(
-                windowState = windowState,
-                exitApplication = { exitApplication() }
-            )
+            AnimationRouteScreen(
+                GlobalRouteManager.controller,
+            ) {
+                GlobalRouteScreen(it)
+            }
         }
+    }
+}
+
+context(FrameWindowScope)
+@Composable
+private fun ApplicationScope.GlobalRouteScreen(router: GlobalRouter) {
+    when (router) {
+        GlobalRouter.Startup -> Startup()
+
+        GlobalRouter.Setup -> SetupScreen(
+            windowState = GlobalWindowManager.windowState,
+            exitApplication = ::exitApplication
+        )
+
+        GlobalRouter.Main -> MainScreen(
+            windowState = GlobalWindowManager.windowState,
+            exitApplication = ::exitApplication
+        )
     }
 }
