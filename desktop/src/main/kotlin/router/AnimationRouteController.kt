@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import java.util.*
 
-class AnimationRouteController<T : RouterDefine>(
+class AnimationRouteController<T>(
     initRouter: T
 ) : RouteController<T> {
 

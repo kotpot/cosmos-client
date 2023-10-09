@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 
 typealias Callback<T> = (T) -> Unit
 
-interface RouteController<T : RouterDefine> {
+interface RouteController<T> {
 
     val curRouteState: State<T>
 

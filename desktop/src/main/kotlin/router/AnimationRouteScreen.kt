@@ -47,3 +47,20 @@ fun <T : RouterDefine> AnimationRouteScreen(
         }
     }
 }
+
+@Composable
+fun <T> AnimationRouteContent(
+    controller: RouteController<T>,
+    enter: (T) -> EnterTransition = { defaultRouteScreenEnter() },
+    exit: (T) -> ExitTransition = { defaultRouteScreenExit() },
+    screen: @Composable (T) -> Unit
+) {
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        AnimatedContent(controller.curRouteState.value, transitionSpec = {
+            enter(targetState) togetherWith exit(initialState)
+        }) {
+            screen(it)
+        }
+    }
+}
