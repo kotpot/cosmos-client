@@ -1,36 +1,53 @@
 package org.kotpot.cosmos.desktop.locale
 
-import org.kotpot.cosmos.desktop.locale.string.*
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
+import org.kotpot.cosmos.desktop.locale.string.LocaleStringEn
+import org.kotpot.cosmos.desktop.locale.string.LocaleStringJa
+import org.kotpot.cosmos.desktop.locale.string.LocaleStringZh
 import java.util.Locale
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 object CurrentLocale {
 
-    val string: LocaleString = when (Locale.getDefault().language) {
-        Locale.SIMPLIFIED_CHINESE.language -> LocaleStringZh()
-        Locale.JAPANESE.language -> LocaleStringJa()
-        Locale.ENGLISH.language -> LocaleStringEn()
-        else -> LocaleStringEn()
-    }
+    var default: Locale = Locale.getDefault()
 
-    internal val resourceTypeCatch :Array<Pair<KClass<*>,*>> = arrayOf(
-        LocaleString::class to string,
+
+    private val resourceTypeMapper: MutableMap<KClass<out LocaleR>, Map<String, LocaleR>> = hashMapOf(
+        LocaleString::class to mapOf(
+            Locale.SIMPLIFIED_CHINESE.language to LocaleStringZh,
+            Locale.JAPANESE.language to LocaleStringJa,
+            Locale.ENGLISH.language to LocaleStringEn
+        ),
     )
 
-}
+    //type->language->propertyName
+    private val resourceTypeCatch: Map<KClass<out LocaleR>, MutableMap<String, MutableMap<String, Any>>> =
+        resourceTypeMapper.keys.associateWith { hashMapOf() }
 
-interface LocaleR<T>
-
-@PublishedApi
-internal val mappingCatch = CurrentLocale.resourceTypeCatch.associate { (type,instance) ->
-    type to type.java.methods.associate { method ->
-        method.name.substring(3).replaceFirstChar { it.lowercaseChar() } to method.invoke(instance)
+    fun <L : LocaleR, T : Any> getLocaleResource(
+        type: KClass<*>,
+        name: String,
+        locale: Locale = default,
+        getter: (L) -> T
+    ): T {
+        val getResource = {
+            getter(
+                (resourceTypeMapper[type]?.get(locale.language)
+                    ?: error("${locale.language} is not support")) as L
+            )
+        }
+        return (resourceTypeCatch[type]?.computeIfAbsent(locale.language) {
+            hashMapOf(name to getResource())
+        }?.computeIfAbsent(name) {
+            getResource()
+        } ?: error("local resource is not register")) as T
     }
+
 }
 
-inline fun <reified L:LocaleR<T>, T> KProperty1<L, T>.locale(): T
-    = (mappingCatch[L::class]?.get(name) as T)!!
+interface LocaleR
 
-
+inline fun <reified L : LocaleR, T : Any> KProperty1<L, T>.locale(locale: Locale = CurrentLocale.default) =
+    CurrentLocale.getLocaleResource(L::class, name, locale, ::get)
 

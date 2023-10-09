@@ -1,6 +1,6 @@
 package org.kotpot.cosmos.desktop.locale.string
 
-class LocaleStringJa : LocaleStringEn() {
+object LocaleStringJa : LocaleString {
 
     override val setupTitle: String =
         "一緒に聴いていましょう"
