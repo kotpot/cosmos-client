@@ -1,6 +1,7 @@
 package org.kotpot.cosmos.desktop.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -22,17 +28,15 @@ import org.kotpot.cosmos.desktop.ui.icon.Home
 import org.kotpot.cosmos.desktop.ui.icon.MusicLibrary
 import org.kotpot.cosmos.desktop.ui.icon.Setting
 
-enum class NavRailItem(
+enum class NavType(
     val icon: ImageVector,
     val filledIcon: ImageVector,
-    val title: String,
-    val selected: Boolean = false
+    val title: String
 ) {
     HOME(
         icon = CosmosIcons.Home,
         filledIcon = CosmosIcons.Filled.Home,
-        title = "Home",
-        selected = true
+        title = "Home"
     ),
     LIBRARY(
         icon = CosmosIcons.MusicLibrary,
@@ -48,33 +52,45 @@ enum class NavRailItem(
 
 @Composable
 fun NavigationRail(
+    railState: NavRailState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        items(NavRailItem.entries.size) {
-            NavRailItem(NavRailItem.entries[it])
+        NavType.entries.forEachIndexed { index, navType ->
+            item {
+                NavRailItem(
+                    railState,
+                    navType,
+                    selected = railState.currentType == navType
+                )
+            }
         }
     }
 }
 
 @Composable
-fun NavRailItem(item: NavRailItem) {
+fun NavRailItem(railState: NavRailState, item: NavType, selected: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .clickable {
+                railState.navigateToType(item)
+            }
             .background(
-                when (item.selected) {
+                when (selected) {
                     true -> MaterialTheme.colorScheme.primaryContainer
-                    false -> Color.Transparent },
+                    false -> Color.Transparent
+                },
                 RoundedCornerShape(24.dp)
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = when (item.selected) {
+            imageVector = when (selected) {
                 true -> item.filledIcon
                 false -> item.icon
             },
@@ -84,15 +100,36 @@ fun NavRailItem(item: NavRailItem) {
         )
         Text(
             text = item.title,
-            style = when (item.selected) {
+            style = when (selected) {
                 true -> MaterialTheme.typography.titleMedium
                 false -> MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Normal
-                ) },
-            color = when (item.selected) {
+                )
+            },
+            color = when (selected) {
                 true -> MaterialTheme.colorScheme.onPrimaryContainer
                 false -> MaterialTheme.colorScheme.onSurface
             },
         )
+    }
+}
+
+@Composable
+fun rememberNavRailState(
+    initialType: NavType
+): NavRailState {
+    return rememberSaveable {
+        NavRailState(
+            initialType
+        )
+    }
+}
+
+class NavRailState(
+    initialType: NavType,
+) {
+    var currentType by mutableStateOf(initialType)
+    fun navigateToType(destinationType: NavType) {
+        currentType = destinationType
     }
 }

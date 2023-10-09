@@ -12,6 +12,6 @@ fun HomeContent(
     Column(
         modifier
     ) {
-        Text(text = "Hello, world!")
+        Text(text = "Hello, Home!")
     }
 }

@@ -1,5 +1,10 @@
 package org.kotpot.cosmos.desktop.ui.screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,6 +19,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
@@ -24,6 +30,8 @@ import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.component.*
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
+import org.kotpot.cosmos.desktop.ui.main.LibraryContent
+import org.kotpot.cosmos.desktop.ui.main.SettingContent
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
 
 @Composable
@@ -31,6 +39,8 @@ fun FrameWindowScope.MainScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
 ) {
+    val navRailState = rememberNavRailState(NavType.HOME)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,12 +63,14 @@ fun FrameWindowScope.MainScreen(
             windowState,
             exitApplication
         )
-        MainScreenContent()
+        MainScreenContent(navRailState)
     }
 }
 
 @Composable
-fun MainScreenContent() {
+fun MainScreenContent(
+    railState: NavRailState
+) {
     var text by remember { mutableStateOf("") }
 
     Column(
@@ -96,23 +108,35 @@ fun MainScreenContent() {
                 modifier = Modifier
                     .weight(0.2f)
             ) {
-                NavigationRail()
+                NavigationRail(railState)
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
                     painter = painterResource("image/album_cover.png"),
                     contentDescription = "Album cover",
                     modifier = Modifier
+                        .fillMaxWidth()
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Fit
                 )
             }
-            HomeContent(
+
+            AnimatedContent(
+                railState.currentType,
+                transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
                 modifier = Modifier
                     .weight(0.6f)
                     .fillMaxHeight()
                     .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small),
-            )
+            ) {
+                when (it) {
+                    NavType.HOME -> HomeContent()
+                    NavType.LIBRARY -> LibraryContent()
+                    NavType.SETTINGS -> SettingContent()
+                }
+            }
+
             Column(
                 modifier = Modifier
                     .weight(0.2f)
