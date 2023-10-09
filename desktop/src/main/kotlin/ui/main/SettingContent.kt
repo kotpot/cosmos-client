@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LibraryContent(
+fun SettingContent(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier
     ) {
-        Text(text = "Hello, Library!")
+        Text(text = "Hello, Setting!")
     }
 }
