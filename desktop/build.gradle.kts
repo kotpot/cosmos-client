@@ -9,6 +9,7 @@ group = providers.gradleProperty("group").get()
 version = providers.gradleProperty("version").get()
 
 dependencies {
+    implementation(project(":shared"))
     implementation(compose.desktop.currentOs)
     implementation(libs.compose.material3)
 }

@@ -15,8 +15,9 @@ kotlin {
                 implementation(libs.ktor.protobuf)
                 implementation(libs.ktor.contentNegotiation)
                 implementation(libs.ktor.loging)
-
                 implementation(libs.koin.core)
+
+                api(project(":cosmos-protocol"))
             }
         }
         val desktopMain by getting {

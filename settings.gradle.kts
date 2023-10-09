@@ -13,3 +13,4 @@ plugins {
 rootProject.name = "cosmos-client"
 include("shared")
 include("desktop")
+include("cosmos-protocol")
