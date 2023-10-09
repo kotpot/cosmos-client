@@ -50,6 +50,7 @@ enum class NavType(
     )
 }
 
+@OptIn(ExperimentalStdlibApi::class)
 @Composable
 fun NavigationRail(
     railState: NavRailState,

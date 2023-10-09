@@ -1,14 +1,11 @@
 package org.kotpot.cosmos.desktop.locale.string
 
-object LocaleStringZh : LocaleString {
+internal val localeStringZh = localeString {
 
-    override val setupTitle: String =
-        "让我们一起听"
+    setupTitle = "让我们一起听"
 
-    override val setupHint: String =
-        "在下面输入您的广播服务器链接以开始使用"
+    setupHint = "在下面输入您的广播服务器链接以开始使用"
 
-    override val searchHint: String =
-        "搜索..."
+    searchHint = "搜索..."
 
 }

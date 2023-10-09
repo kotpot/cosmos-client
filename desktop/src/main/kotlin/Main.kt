@@ -27,6 +27,7 @@ import org.kotpot.cosmos.desktop.ui.screen.SetupScreen
 import org.kotpot.cosmos.desktop.ui.screen.Startup
 import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
 
+@OptIn(ExperimentalStdlibApi::class)
 fun main() = application {
 
     Window(
