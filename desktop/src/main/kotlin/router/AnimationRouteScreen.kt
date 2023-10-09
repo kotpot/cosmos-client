@@ -5,9 +5,7 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntOffset
 
 private const val DEFAULT_ANIME_DURATION = 500
 
@@ -26,16 +24,25 @@ fun defaultRouteScreenExit(): ExitTransition {
     ) + fadeOut(tween())
 }
 
+fun defaultRouteContentEnter(): EnterTransition {
+    return fadeIn(tween(400, 200))
+}
+
+fun defaultRouteContentExit(): ExitTransition {
+    return fadeOut(tween(200))
+}
+
 @Composable
 fun <T : RouterDefine> AnimationRouteScreen(
     controller: RouteController<T>,
     routers: Array<T>,
     enter: (T) -> EnterTransition = { defaultRouteScreenEnter() },
     exit: (T) -> ExitTransition = { defaultRouteScreenExit() },
+    modifier: Modifier = Modifier.fillMaxSize(),
     screen: @Composable (T) -> Unit
 ) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier) {
         for (router in routers) {
             AnimatedVisibility(
                 visible = controller.curRouteState.value == router,
@@ -51,15 +58,17 @@ fun <T : RouterDefine> AnimationRouteScreen(
 @Composable
 fun <T> AnimationRouteContent(
     controller: RouteController<T>,
-    enter: (T) -> EnterTransition = { defaultRouteScreenEnter() },
-    exit: (T) -> ExitTransition = { defaultRouteScreenExit() },
+    enter: (T) -> EnterTransition = { defaultRouteContentEnter() },
+    exit: (T) -> ExitTransition = { defaultRouteContentExit() },
+    modifier: Modifier = Modifier.fillMaxSize(),
     screen: @Composable (T) -> Unit
 ) {
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        AnimatedContent(controller.curRouteState.value, transitionSpec = {
-            enter(targetState) togetherWith exit(initialState)
-        }) {
+    Box(modifier) {
+        AnimatedContent(
+            controller.curRouteState.value,
+            transitionSpec = {
+                enter(targetState) togetherWith exit(initialState)
+            }) {
             screen(it)
         }
     }

@@ -21,7 +21,7 @@ class AnimationRouteController<T>(
         for (obs in _pushObs) {
             obs.invoke(route)
         }
-        _curRouteState.value = stack.last
+        _curRouteState.value = stack.first
     }
 
     override fun pop() {

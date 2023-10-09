@@ -1,10 +1,5 @@
 package org.kotpot.cosmos.desktop.ui.screen
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,6 +23,8 @@ import org.kotpot.cosmos.desktop.locale.locale
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
+import org.kotpot.cosmos.desktop.router.AnimationRouteContent
+import org.kotpot.cosmos.desktop.router.AnimationRouteController
 import org.kotpot.cosmos.desktop.ui.component.*
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
@@ -39,7 +36,7 @@ fun FrameWindowScope.MainScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
 ) {
-    val navRailState = rememberNavRailState(NavType.HOME)
+    val navController = AnimationRouteController(NavType.HOME)
 
     Box(
         modifier = Modifier
@@ -63,13 +60,13 @@ fun FrameWindowScope.MainScreen(
             windowState,
             exitApplication
         )
-        MainScreenContent(navRailState)
+        MainScreenContent(navController)
     }
 }
 
 @Composable
 fun MainScreenContent(
-    railState: NavRailState
+    navController: AnimationRouteController<NavType>
 ) {
     var text by remember { mutableStateOf("") }
 
@@ -108,7 +105,7 @@ fun MainScreenContent(
                 modifier = Modifier
                     .weight(0.2f)
             ) {
-                NavigationRail(railState)
+                NavigationRail(navController)
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
                     painter = painterResource("image/album_cover.png"),
@@ -121,9 +118,8 @@ fun MainScreenContent(
                 )
             }
 
-            AnimatedContent(
-                railState.currentType,
-                transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
+            AnimationRouteContent(
+                controller = navController,
                 modifier = Modifier
                     .weight(0.6f)
                     .fillMaxHeight()
@@ -134,6 +130,7 @@ fun MainScreenContent(
                     NavType.HOME -> HomeContent()
                     NavType.LIBRARY -> LibraryContent()
                     NavType.SETTINGS -> SettingContent()
+                    else -> HomeContent()
                 }
             }
 
