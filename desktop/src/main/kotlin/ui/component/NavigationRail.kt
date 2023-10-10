@@ -54,7 +54,6 @@ enum class NavRailType(
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 @Composable
 fun NavigationRail(
     navController: AnimationRouteController<NavType>,

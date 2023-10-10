@@ -10,12 +10,18 @@ class AnimationRouteController<T>(
 
     private val stack: Deque<T> = LinkedList(listOf(initRouter))
 
+    private val _stackSize = mutableStateOf(stack.size)
+    val stackSize: State<Int> = _stackSize
+
     private val _curRouteState = mutableStateOf(initRouter)
     override val curRouteState: State<T> = _curRouteState
 
     private val _pushObs = LinkedList<Callback<T>>()
     private val _popObs = LinkedList<Callback<T>>()
 
+    fun updateStackSize() {
+        _stackSize.value = stack.size
+    }
     override fun push(route: T) {
         stack.push(route)
         for (obs in _pushObs) {
@@ -29,7 +35,7 @@ class AnimationRouteController<T>(
         for (obs in _popObs) {
             obs.invoke(item)
         }
-        _curRouteState.value = stack.last
+        _curRouteState.value = stack.first
     }
 
     fun replace(route: T) {
