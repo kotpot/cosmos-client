@@ -22,17 +22,16 @@ object CurrentLocale {
     private val resourceTypeCatch: MutableMap<String, Any> by lazy(::hashMapOf)
 
     fun <L : LocaleR, T : Any> getLocaleResource(
-        type: KClass<*>,
-        name: String,
+        localeRType: KClass<*>,
+        propertyName: String,
         locale: Locale = default,
         doGet: (L) -> T
-    ): T {
-        val getLocaleR = {
-            (resourceTypeMapper[type]?.get(locale.language)
-                ?: error("${locale.language} is not support")) as L
-        }
-        return resourceTypeCatch.computeIfAbsent(type.qualifiedName + locale.language + name) { doGet(getLocaleR()) } as T
-    }
+    ): T =
+        resourceTypeCatch.computeIfAbsent(localeRType.qualifiedName + locale.language + propertyName) {
+            ((resourceTypeMapper[localeRType]?.get(locale.language)
+                ?: error("${locale.language} is not support")) as L)
+                .let(doGet)
+        } as T
 
 }
 
