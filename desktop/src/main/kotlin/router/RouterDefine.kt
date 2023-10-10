@@ -2,5 +2,7 @@ package org.kotpot.cosmos.desktop.router
 
 // TODO rename to Finite Router
 interface RouterDefine {
-    fun key(): Any
+    fun key(): Any {
+        return this
+    }
 }

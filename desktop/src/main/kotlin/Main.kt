@@ -39,7 +39,6 @@ fun main() = application {
         undecorated = true,
     ) {
         CosmosTheme {
-            // Navigation
             Box(
                 modifier = Modifier
                     .fillMaxSize()

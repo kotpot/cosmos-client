@@ -2,18 +2,18 @@ package org.kotpot.cosmos.desktop.locale.string
 
 import org.kotpot.cosmos.desktop.locale.LocaleR
 
-interface LocaleString : LocaleR {
+class LocaleString : LocaleR {
 
-    val setupTitle: String
-        get() =
-            "Let’s listen together"
+    internal var setupTitle: String =
+        "Let’s listen together"
 
-    val setupHint: String
-        get() =
-            "Enter your broadcast server link down below to get started"
+    internal var setupHint: String =
+        "Enter your broadcast server link down below to get started"
 
-    val searchHint: String
-        get() =
-            "Search for something..."
+    internal var searchHint: String =
+        "Search for something..."
 
 }
+
+fun localeString(init: LocaleString.() -> Unit = {}): LocaleString =
+    LocaleString().apply(init)

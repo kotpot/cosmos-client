@@ -12,10 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,12 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.router.AnimationRouteController
+import org.kotpot.cosmos.desktop.router.RouterDefine
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.Home
 import org.kotpot.cosmos.desktop.ui.icon.MusicLibrary
 import org.kotpot.cosmos.desktop.ui.icon.Setting
 
-enum class NavType(
+enum class NavRailType(
     val icon: ImageVector,
     val filledIcon: ImageVector,
     val title: String
@@ -47,38 +45,49 @@ enum class NavType(
         icon = CosmosIcons.Setting,
         filledIcon = CosmosIcons.Filled.Setting,
         title = "Settings"
-    )
+    );
+
+    fun toNavType() = when (this) {
+        HOME -> NavType.HOME
+        LIBRARY -> NavType.LIBRARY
+        SETTINGS -> NavType.SETTINGS
+    }
 }
 
 @Composable
 fun NavigationRail(
-    railState: NavRailState,
+    navController: AnimationRouteController<NavType>,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        NavType.entries.forEachIndexed { index, navType ->
+        NavRailType.entries.forEach { navType ->
             item {
                 NavRailItem(
-                    railState,
+                    navController,
                     navType,
-                    selected = railState.currentType == navType
+                    selected = navController.curRouteState.value.name == navType.name
                 )
             }
         }
     }
 }
 
+
+enum class NavType : RouterDefine {
+    HOME, LIBRARY, SETTINGS, SEARCH, PLAYLIST
+}
+
 @Composable
-fun NavRailItem(railState: NavRailState, item: NavType, selected: Boolean) {
+fun NavRailItem(navController: AnimationRouteController<NavType>, item: NavRailType, selected: Boolean) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
             .clickable {
-                railState.navigateToType(item)
+                navController.push(item.toNavType())
             }
             .background(
                 when (selected) {
@@ -111,25 +120,5 @@ fun NavRailItem(railState: NavRailState, item: NavType, selected: Boolean) {
                 false -> MaterialTheme.colorScheme.onSurface
             },
         )
-    }
-}
-
-@Composable
-fun rememberNavRailState(
-    initialType: NavType
-): NavRailState {
-    return rememberSaveable {
-        NavRailState(
-            initialType
-        )
-    }
-}
-
-class NavRailState(
-    initialType: NavType,
-) {
-    var currentType by mutableStateOf(initialType)
-    fun navigateToType(destinationType: NavType) {
-        currentType = destinationType
     }
 }

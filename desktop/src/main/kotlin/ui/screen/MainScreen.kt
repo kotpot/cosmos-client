@@ -1,22 +1,16 @@
 package org.kotpot.cosmos.desktop.ui.screen
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -28,7 +22,11 @@ import org.kotpot.cosmos.desktop.locale.locale
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.model.QueueSong
+import org.kotpot.cosmos.desktop.router.AnimationRouteContent
+import org.kotpot.cosmos.desktop.router.AnimationRouteController
 import org.kotpot.cosmos.desktop.ui.component.*
+import org.kotpot.cosmos.desktop.ui.icon.ArrowForward
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
 import org.kotpot.cosmos.desktop.ui.main.SettingContent
@@ -39,7 +37,12 @@ fun FrameWindowScope.MainScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
 ) {
-    val navRailState = rememberNavRailState(NavType.HOME)
+    val navController by remember { mutableStateOf(AnimationRouteController(NavType.HOME)) }
+
+    LaunchedEffect(true) {
+        navController.onPush { navController.updateStackSize() }
+        navController.onPop { navController.updateStackSize() }
+    }
 
     Box(
         modifier = Modifier
@@ -63,15 +66,16 @@ fun FrameWindowScope.MainScreen(
             windowState,
             exitApplication
         )
-        MainScreenContent(navRailState)
+        MainScreenContent(navController)
     }
 }
 
 @Composable
 fun MainScreenContent(
-    railState: NavRailState
+    navController: AnimationRouteController<NavType>
 ) {
     var text by remember { mutableStateOf("") }
+    val enableBackward = navController.stackSize.value > 1
 
     Column(
         modifier = Modifier
@@ -86,7 +90,33 @@ fun MainScreenContent(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Spacer(modifier = Modifier.weight(0.2f))
+            Spacer(modifier = Modifier.weight(0.15f))
+            Column(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(100))
+                    .clickable(
+                        enabled = enableBackward,
+                        onClick = {
+                            if (enableBackward) navController.pop()
+                        }
+                    )
+                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(100))
+                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(100)),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = CosmosIcons.ArrowForward,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .rotate(180f),
+                    tint = when (enableBackward) {
+                        true -> MaterialTheme.colorScheme.onSurface
+                        false -> MaterialTheme.colorScheme.onSurface.copy(0.38f)
+                    }
+                )
+            }
             LargeTextField(
                 textFieldValue = text,
                 onTextFieldValueChange = { text = it },
@@ -108,7 +138,7 @@ fun MainScreenContent(
                 modifier = Modifier
                     .weight(0.2f)
             ) {
-                NavigationRail(railState)
+                NavigationRail(navController)
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
                     painter = painterResource("image/album_cover.png"),
@@ -121,9 +151,8 @@ fun MainScreenContent(
                 )
             }
 
-            AnimatedContent(
-                railState.currentType,
-                transitionSpec = { fadeIn(tween(300)) togetherWith fadeOut(tween(300)) },
+            AnimationRouteContent(
+                controller = navController,
                 modifier = Modifier
                     .weight(0.6f)
                     .fillMaxHeight()
@@ -134,6 +163,7 @@ fun MainScreenContent(
                     NavType.HOME -> HomeContent()
                     NavType.LIBRARY -> LibraryContent()
                     NavType.SETTINGS -> SettingContent()
+                    else -> HomeContent()
                 }
             }
 
