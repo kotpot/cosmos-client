@@ -65,11 +65,11 @@ fun SongGridItem(queueSong: QueueSong) {
         Column {
             Text(
                 text = queueSong.title.checkLength(8),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall
             )
             Text(
                 text = queueSong.artist.checkLength(8),
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.bodySmall
             )
         }
         Spacer(Modifier.weight(1f))
