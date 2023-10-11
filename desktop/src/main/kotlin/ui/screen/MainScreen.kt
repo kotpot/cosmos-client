@@ -97,9 +97,7 @@ fun MainScreenContent(
                     .clip(RoundedCornerShape(100))
                     .clickable(
                         enabled = enableBackward,
-                        onClick = {
-                            if (enableBackward) navController.pop()
-                        }
+                        onClick = { navController.pop() }
                     )
                     .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(100))
                     .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(100)),

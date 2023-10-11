@@ -22,16 +22,22 @@ class AnimationRouteController<T>(
     fun updateStackSize() {
         _stackSize.value = stack.size
     }
+
     override fun push(route: T) {
+        if (route == stack.first) return
         stack.push(route)
         for (obs in _pushObs) {
             obs.invoke(route)
+        }
+        if (stack.size >= 6) {
+            stack.removeLast()
         }
         _curRouteState.value = stack.first
     }
 
     override fun pop() {
-        val item = stack.pop()
+        if (stack.size == 0) return
+        val item = stack.poll()
         for (obs in _popObs) {
             obs.invoke(item)
         }
