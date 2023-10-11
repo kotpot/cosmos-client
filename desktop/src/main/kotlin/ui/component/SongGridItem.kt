@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.MoreVert
+import org.kotpot.cosmos.desktop.ui.util.checkLength
 
 @Composable
 fun SongGrid(title: String, queueSongList: List<QueueSong>) {
@@ -63,11 +64,11 @@ fun SongGridItem(queueSong: QueueSong) {
 
         Column {
             Text(
-                text = queueSong.title + queueSong.songLength, // Todo() delete + queueSong.songLength
-                style = MaterialTheme.typography.titleSmall
+                text = queueSong.title.checkLength(8),
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = queueSong.artist,
+                text = queueSong.artist.checkLength(8),
                 style = MaterialTheme.typography.titleSmall
             )
         }

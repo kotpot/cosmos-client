@@ -23,7 +23,7 @@ fun HomeContent(
         QueueSong(
             albumCover = "image/album_cover.png",
             title = "きらめき＊Chocolaterie",
-            artist = "KyoKa",
+            artist = "KyoKa/KyoKa/KyoKa",
             songLength = it.toLong()
         )
     }.toList()
