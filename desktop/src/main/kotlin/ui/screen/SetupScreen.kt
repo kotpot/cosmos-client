@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
-import org.kotpot.cosmos.desktop.locale.locale
+import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.component.AppTopBar
 import org.kotpot.cosmos.desktop.ui.component.LargeTextField
@@ -47,7 +47,7 @@ fun FrameWindowScope.SetupScreen(
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = LocaleString::setupTitle.locale(),
+            text = LocaleString::setupTitle.from(),
             style = TextStyle(
                 fontFamily = Monorale,
                 fontSize = 64.sp,
@@ -57,7 +57,7 @@ fun FrameWindowScope.SetupScreen(
             modifier = Modifier.padding(bottom = 24.dp)
         )
         Text(
-            text = LocaleString::setupHint.locale(),
+            text = LocaleString::setupHint.from(),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )

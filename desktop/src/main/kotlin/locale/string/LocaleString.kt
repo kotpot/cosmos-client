@@ -13,6 +13,12 @@ class LocaleString : LocaleR {
     internal var searchHint: String =
         "Search for something..."
 
+    internal var homeMostTitle: String =
+        "Most played"
+
+    internal var homeRecentlyTitle: String =
+        "Recently Picked"
+
 }
 
 fun localeString(init: LocaleString.() -> Unit = {}): LocaleString =

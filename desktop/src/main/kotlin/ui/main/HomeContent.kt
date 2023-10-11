@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.locale.from
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.component.SongGrid
 import java.util.stream.IntStream
@@ -20,9 +22,9 @@ fun HomeContent(
     val queueSongList = IntStream.range(0, 12).mapToObj {
         QueueSong(
             albumCover = "image/album_cover.png",
-            title = "きら",
+            title = "きらめき＊Chocolaterie",
             artist = "KyoKa",
-            songLength = 214000
+            songLength = it.toLong()
         )
     }.toList()
 
@@ -31,8 +33,8 @@ fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(18.dp, Alignment.Top),
         horizontalAlignment = Alignment.Start,
     ) {
-        SongGrid(title = "Most played", queueSongList)
-        SongGrid(title = "Recently Picked", queueSongList)
+        SongGrid(title = LocaleString::homeMostTitle.from(), queueSongList)
+        SongGrid(title = LocaleString::homeRecentlyTitle.from(), queueSongList)
     }
 
 }

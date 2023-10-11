@@ -63,7 +63,7 @@ fun SongGridItem(queueSong: QueueSong) {
 
         Column {
             Text(
-                text = queueSong.title + queueSong.songLength,
+                text = queueSong.title + queueSong.songLength, // Todo() delete + queueSong.songLength
                 style = MaterialTheme.typography.titleSmall
             )
             Text(
