@@ -7,9 +7,3 @@ fun Long.formatMilliseconds(): String {
     val secondsStr = if (seconds < 10) "0$seconds" else seconds
     return "$minutes:$secondsStr"
 }
-
-fun String.checkLength(maxIndex: Int) =
-    when (this.length > maxIndex) {
-        true -> this.slice(0..maxIndex).plus("...")
-        false -> this
-    }
