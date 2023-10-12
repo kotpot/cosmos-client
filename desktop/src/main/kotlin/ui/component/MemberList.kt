@@ -9,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +54,8 @@ fun MemberListItem(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        var name by remember { mutableStateOf(member.name) }
+
         Image(
             painter = painterResource(member.avatar),
             contentDescription = "Avatar",
@@ -69,7 +71,12 @@ fun MemberListItem(
                 baselineShift = BaselineShift(0.3f)
             ),
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { textLayoutResult ->
+                if (textLayoutResult.hasVisualOverflow) {
+                    name = name.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                }
+            }
         )
         if (member.role == "moderator") {
             Text(

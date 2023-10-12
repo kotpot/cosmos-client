@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -56,13 +56,21 @@ fun SongInfo(
     Column(
         modifier
     ) {
+        var _title by remember { mutableStateOf(title) }
+        var _artist by remember { mutableStateOf(artist) }
+
         Row {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                onTextLayout = { textLayoutResult ->
+                    if (textLayoutResult.hasVisualOverflow) {
+                        _title = _title.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                    }
+                }
             )
             Icon(
                 imageVector = CosmosIcons.ExpandMore,
@@ -73,11 +81,16 @@ fun SongInfo(
         }
         Spacer(Modifier.weight(1f))
         Text(
-            text = artist,
+            text = _artist,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { textLayoutResult ->
+                if (textLayoutResult.hasVisualOverflow) {
+                    _artist = _artist.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                }
+            }
         )
     }
 }
