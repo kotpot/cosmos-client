@@ -145,7 +145,7 @@ fun MainScreenContent(
                         .fillMaxWidth()
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Fit
+                    contentScale = ContentScale.FillWidth
                 )
             }
 
