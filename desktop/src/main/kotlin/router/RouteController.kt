@@ -9,6 +9,8 @@ interface RouteController<T> {
 
     val curRouteState: State<T>
 
+    val curStackSize: State<Int>
+
     fun push(route: T)
 
     fun pop()
@@ -16,4 +18,5 @@ interface RouteController<T> {
     fun onPush(callback: Callback<T>)
 
     fun onPop(callback: Callback<T>)
+
 }

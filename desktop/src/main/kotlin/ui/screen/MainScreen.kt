@@ -37,12 +37,7 @@ fun FrameWindowScope.MainScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
 ) {
-    val navController by remember { mutableStateOf(AnimationRouteController(NavType.HOME)) }
-
-    LaunchedEffect(true) {
-        navController.onPush { navController.updateStackSize() }
-        navController.onPop { navController.updateStackSize() }
-    }
+    val navController by remember { mutableStateOf(AnimationRouteController(NavType.HOME, 6)) }
 
     Box(
         modifier = Modifier
@@ -75,7 +70,7 @@ fun MainScreenContent(
     navController: AnimationRouteController<NavType>
 ) {
     var text by remember { mutableStateOf("") }
-    val enableBackward = navController.stackSize.value > 1
+    val enableBackward = navController.curStackSize.value > 1
 
     Column(
         modifier = Modifier
