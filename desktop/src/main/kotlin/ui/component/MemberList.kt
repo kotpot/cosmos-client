@@ -18,6 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.locale.from
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.ui.icon.Add
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
@@ -33,7 +35,7 @@ fun MemberList(
     ) {
         ListCard(
             icon = CosmosIcons.Group,
-            title = "Member",
+            title = LocaleString::mainMemberListTitle.from(),
             additionalText = members.size.toString(),
         ) {
             items(members) {

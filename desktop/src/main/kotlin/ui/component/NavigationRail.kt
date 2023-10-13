@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.locale.from
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.router.AnimationRouteController
 import org.kotpot.cosmos.desktop.router.RouterDefine
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
@@ -34,17 +36,17 @@ enum class NavRailType(
     HOME(
         icon = CosmosIcons.Home,
         filledIcon = CosmosIcons.Filled.Home,
-        title = "Home"
+        title = LocaleString::mainNavHome.from()
     ),
     LIBRARY(
         icon = CosmosIcons.MusicLibrary,
         filledIcon = CosmosIcons.Filled.MusicLibrary,
-        title = "Library"
+        title = LocaleString::mainNavLibrary.from()
     ),
     SETTINGS(
         icon = CosmosIcons.Setting,
         filledIcon = CosmosIcons.Filled.Setting,
-        title = "Settings"
+        title = LocaleString::mainNavSetting.from()
     );
 
     fun toNavType() = when (this) {

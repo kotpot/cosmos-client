@@ -10,6 +10,27 @@ class LocaleString : LocaleR {
     internal var setupHint: String =
         "Enter your broadcast server link down below to get started"
 
+    internal var setupBtnText: String =
+        "JOIN"
+
+    internal var mainNavHome: String =
+        "Home"
+
+    internal var mainNavLibrary: String =
+        "Library"
+
+    internal var mainNavChat: String =
+        "Chat"
+
+    internal var mainNavSetting: String =
+        "Setting"
+
+    internal var mainMemberListTitle: String =
+        "Member"
+
+    internal var mainQueueListTitle: String =
+        "Queue"
+
     internal var searchHint: String =
         "Search for something..."
 

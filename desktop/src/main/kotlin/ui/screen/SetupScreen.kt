@@ -72,7 +72,7 @@ fun FrameWindowScope.SetupScreen(
                 .height(40.dp)
         )
         SimpleButton(
-            text = "JOIN",
+            text = LocaleString::setupBtnText.from(),
             icon = CosmosIcons.ArrowForward,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.small)
