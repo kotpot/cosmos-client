@@ -13,6 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.locale.from
+import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
@@ -28,7 +30,7 @@ fun SongQueue(
     ) {
         ListCard(
             icon = CosmosIcons.QueueMusic,
-            title = "Queue",
+            title = LocaleString::mainQueueListTitle.from(),
             additionalText = "${songs.size} - ${songs.sumOf { it.songLength }.formatMilliseconds()}"
         ) {
             items(songs) {

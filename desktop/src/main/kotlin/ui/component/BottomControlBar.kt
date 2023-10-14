@@ -145,7 +145,7 @@ fun MusicControl(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Slider(
+        CosmosSlider(
             value = playedLength.toFloat().div(songLength),
             onValueChange = {}, //TODO: LOGIC
             valueRange = 0f..1f,
@@ -189,7 +189,7 @@ fun VolumeControl(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Slider(
+        CosmosSlider(
             value = volume,
             onValueChange = {}, //TODO: LOGIC
             valueRange = 0f..100f,
