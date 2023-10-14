@@ -2,9 +2,9 @@ package org.kotpot.cosmos.desktop.locale.string
 
 internal val localeStringZh = localeString {
 
-    this.setupTitle = "齐听齐赏。"
+    this.setupTitle = "齐听共赏。"
 
-    this.setupHint = "在下面输入您的广播服务器链接以开始使用"
+    this.setupHint = "在下面输入您的服务器地址以开始使用"
 
     this.setupBtnText = "启动!"
 
@@ -20,7 +20,7 @@ internal val localeStringZh = localeString {
 
     this.mainMemberListTitle = "成员"
 
-    this.mainQueueListTitle = "队列"
+    this.mainQueueListTitle = "歌单"
 
     this.homeMostTitle = "最常被点"
 
