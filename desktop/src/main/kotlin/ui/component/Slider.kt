@@ -96,7 +96,7 @@ private fun Slider(
                 detectDragGestures(
                     onDrag = { change: PointerInputChange, _: Offset ->
                         if (enabled) {
-                            rawOffset.value = trackEnd - change.position.x
+                            rawOffset.value = change.position.x
                             val offsetInTrack = rawOffset.value.coerceIn(trackStart, trackEnd)
                             onValueChangeState.value.invoke(
                                 scaleToUserValue(offsetInTrack),
@@ -115,7 +115,7 @@ private fun Slider(
             .pointerInput(Unit) {
                 detectTapGestures { position: Offset ->
                     if (enabled) {
-                        rawOffset.value = trackEnd - position.x
+                        rawOffset.value = position.x
                         val offsetInTrack = rawOffset.value.coerceIn(trackStart, trackEnd)
                         onValueChangeState.value.invoke(
                             scaleToUserValue(offsetInTrack),
@@ -198,14 +198,16 @@ private fun Track(
             cap = StrokeCap.Round
         )
 
-        // Track
-        drawLine(
-            color = trackColor,
-            start = sliderLeft,
-            end = sliderValue,
-            strokeWidth = trackHeight.toPx(),
-            cap = StrokeCap.Round
-        )
+        if (sliderValue != sliderLeft) {
+            // Track
+            drawLine(
+                color = trackColor,
+                start = sliderLeft,
+                end = sliderValue,
+                strokeWidth = trackHeight.toPx(),
+                cap = StrokeCap.Round
+            )
+        }
     }
 }
 
