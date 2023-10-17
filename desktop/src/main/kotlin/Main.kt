@@ -16,6 +16,8 @@ import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import org.koin.compose.KoinContext
+import org.kotpot.cosmos.desktop.di.appModule
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.global.GlobalRouter
 import org.kotpot.cosmos.desktop.global.GlobalWindowManager
@@ -26,38 +28,43 @@ import org.kotpot.cosmos.desktop.ui.screen.MainScreen
 import org.kotpot.cosmos.desktop.ui.screen.SetupScreen
 import org.kotpot.cosmos.desktop.ui.screen.Startup
 import org.kotpot.cosmos.desktop.ui.theme.CosmosTheme
+import org.kotpot.cosmos.shared.di.initKoin
 
 fun main() = application {
 
-    Window(
-        onCloseRequest = ::exitApplication,
-        state = GlobalWindowManager.windowState,
-        title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
-        icon = painterResource("image/logo.svg"),
-        resizable = false,
-        transparent = true,
-        undecorated = true,
-    ) {
-        CosmosTheme {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
-                    .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
-            ) {
-                AnimationRouteScreen(
-                    GlobalRouteManager.controller,
-                    GlobalRouter.entries.toTypedArray(),
-                    enter = {
-                        if (it == GlobalRouter.Setup) fadeIn(tween(500))
-                        else defaultRouteScreenEnter()
-                    },
-                    exit = {
-                        if (it == GlobalRouter.Startup) fadeOut(tween(500))
-                        else defaultRouteScreenExit()
-                    }
+    initKoin(appDeclaration = { modules(appModule) })
+
+    KoinContext {
+        Window(
+            onCloseRequest = ::exitApplication,
+            state = GlobalWindowManager.windowState,
+            title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
+            icon = painterResource("image/logo.svg"),
+            resizable = false,
+            transparent = true,
+            undecorated = true,
+        ) {
+            CosmosTheme {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
                 ) {
-                    GlobalRouteScreen(it)
+                    AnimationRouteScreen(
+                        GlobalRouteManager.controller,
+                        GlobalRouter.entries.toTypedArray(),
+                        enter = {
+                            if (it == GlobalRouter.Setup) fadeIn(tween(500))
+                            else defaultRouteScreenEnter()
+                        },
+                        exit = {
+                            if (it == GlobalRouter.Startup) fadeOut(tween(500))
+                            else defaultRouteScreenExit()
+                        }
+                    ) {
+                        GlobalRouteScreen(it)
+                    }
                 }
             }
         }
