@@ -15,7 +15,7 @@ kotlin {
                 implementation(libs.ktor.protobuf)
                 implementation(libs.ktor.contentNegotiation)
                 implementation(libs.ktor.loging)
-                implementation(libs.koin.core)
+                api(libs.koin.core)
                 implementation(libs.compose.material3)
                 api(project(":cosmos-protocol"))
             }
