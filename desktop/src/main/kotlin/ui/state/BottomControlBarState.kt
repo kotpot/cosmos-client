@@ -1,10 +1,10 @@
 package org.kotpot.cosmos.desktop.ui.state
 
 data class BottomControlBarState(
-    val title: String,
-    val artist: String,
-    val songLength: Long,
-    val playedLength: Long,
-    val volume: Float,
-    val isPaused: Boolean
+    val title: String = "",
+    val artist: String = "",
+    val songLength: Long = 0,
+    val playedLength: Long = 0,
+    val volume: Float = 0f,
+    val isPaused: Boolean = false
 )

@@ -10,15 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.ui.icon.*
 import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
-import org.kotpot.cosmos.desktop.ui.util.formatMilliseconds
+import org.kotpot.cosmos.desktop.ui.viewmodel.BottomControlBarViewModel
+import org.kotpot.cosmos.desktop.util.formatMilliseconds
 
 @Composable
 fun BottomControlBar(
     bottomControlBarState: BottomControlBarState,
     modifier: Modifier
 ) {
+    val viewModel = koinInject<BottomControlBarViewModel>()
+    val state by viewModel.uiState.collectAsState()
+
     Row(
         modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -39,10 +44,11 @@ fun BottomControlBar(
             isPaused = bottomControlBarState.isPaused
         )
         VolumeControl(
+            volume = state.volume,
+            onVolumeChange = { viewModel.onVolumeChange(it) },
             modifier = Modifier
                 .fillMaxHeight()
-                .weight(0.19f),
-            volume = bottomControlBarState.volume
+                .weight(0.19f)
         )
     }
 }
@@ -156,8 +162,9 @@ fun MusicControl(
 
 @Composable
 fun VolumeControl(
-    modifier: Modifier,
-    volume: Float
+    volume: Float,
+    onVolumeChange: (Float) -> Unit,
+    modifier: Modifier
 ) {
     Column(modifier) {
         Row {
@@ -191,7 +198,7 @@ fun VolumeControl(
         }
         CosmosSlider(
             value = volume,
-            onValueChange = {}, //TODO: LOGIC
+            onValueChange = { onVolumeChange(it) },
             valueRange = 0f..100f,
             modifier = Modifier.fillMaxWidth()
         )
