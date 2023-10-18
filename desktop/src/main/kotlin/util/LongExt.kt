@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.util
+package org.kotpot.cosmos.desktop.util
 
 fun Long.formatMilliseconds(): String {
     val totalSeconds = this / 1000
