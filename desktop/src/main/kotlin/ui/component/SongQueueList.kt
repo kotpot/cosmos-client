@@ -18,7 +18,7 @@ import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
-import org.kotpot.cosmos.desktop.ui.util.formatMilliseconds
+import org.kotpot.cosmos.desktop.util.formatMilliseconds
 
 @Composable
 fun SongQueue(
