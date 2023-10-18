@@ -18,6 +18,7 @@ allprojects {
 
 subprojects {
     tasks.withType<KotlinCompile> {
-        kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+        kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
+        kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.ExperimentalStdlibApi"
     }
 }
