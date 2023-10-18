@@ -19,11 +19,34 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "org.kotpot.cosmos.desktop.MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "$group.desktop"
-            packageVersion = version.toString()
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+            modules("java.instrument", "java.management", "java.naming", "jdk.unsupported")
+
+            packageName = "Cosmos"
+            packageVersion = "1.0.0"
+            vendor = "kotpot"
+
+            copyright = "© 2023 kotpot. Licensed under the MIT License."
+            licenseFile.set(project.file("../LICENSE"))
+
+            appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
+
+            windows {
+                iconFile.set(File("launcher_icons/windows_logo.ico"))
+                menuGroup = "Cosmos"
+            }
+
+            linux {
+                iconFile.set(File("launcher_icons/linux_logo.png"))
+                menuGroup = "Cosmos"
+            }
+
+            macOS {
+                iconFile.set(File("launcher_icons/macos_logo.png"))
+                bundleID = "org.kotpot.cosmos"
+            }
         }
     }
 }
