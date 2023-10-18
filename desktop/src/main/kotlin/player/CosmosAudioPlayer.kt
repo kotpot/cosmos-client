@@ -10,14 +10,14 @@ import com.goxr3plus.streamplayer.stream.StreamPlayerListener
 
 class CosmosAudioPlayer : StreamPlayer(), StreamPlayerListener {
 
-    private var _currentPosition by mutableStateOf(0f)
-    val currentPosition = _currentPosition
+    var currentPosition by mutableStateOf(0f)
+        private set
 
-    private var _currentPositionInMicro: Long by mutableStateOf(0)
-    val currentPositionInMicro = _currentPositionInMicro
+    var currentPositionInMicro: Long by mutableStateOf(0)
+        private set
 
-    private var _playerStatus by mutableStateOf(Status.NOT_SPECIFIED)
-    val playerStatus = _playerStatus
+    var playerStatus by mutableStateOf(Status.NOT_SPECIFIED)
+        private set
 
     init {
         addStreamPlayerListener(this)
@@ -33,12 +33,12 @@ class CosmosAudioPlayer : StreamPlayer(), StreamPlayerListener {
         pcmData: ByteArray?,
         properties: MutableMap<String, Any>?
     ) {
-        _currentPosition =
+        currentPosition =
             if (nEncodedBytes > 0 && totalBytes > 0) nEncodedBytes * 1.0f / totalBytes * 1.0f else -1.0f
-        _currentPositionInMicro = microsecondPosition / 1000
+        currentPositionInMicro = microsecondPosition / 1000
     }
 
     override fun statusUpdated(event: StreamPlayerEvent) {
-        _playerStatus = event.playerStatus ?: Status.NOT_SPECIFIED
+        playerStatus = event.playerStatus ?: Status.NOT_SPECIFIED
     }
 }
