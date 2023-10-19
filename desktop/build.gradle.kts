@@ -43,7 +43,7 @@ compose.desktop {
             }
 
             macOS {
-                iconFile.set(File("launcher_icons/macos_logo.png"))
+                iconFile.set(File("launcher_icons/macos_logo.icns"))
                 bundleID = "org.kotpot.cosmos"
             }
         }
