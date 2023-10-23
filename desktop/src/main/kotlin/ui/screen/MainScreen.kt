@@ -74,18 +74,18 @@ fun MainScreenContent(
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(8.dp)
             .fillMaxSize()
             .background(Color.Transparent),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Spacer(modifier = Modifier.weight(0.15f))
+            Spacer(modifier = Modifier.weight(0.1575f))
             Column(
                 modifier = Modifier
                     .size(40.dp)
@@ -125,7 +125,7 @@ fun MainScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.875f),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Column(
                 modifier = Modifier
@@ -164,7 +164,7 @@ fun MainScreenContent(
                 modifier = Modifier
                     .weight(0.2f)
                     .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 MemberList(
                     modifier = Modifier

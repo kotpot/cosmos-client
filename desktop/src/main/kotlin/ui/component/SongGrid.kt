@@ -2,6 +2,7 @@ package org.kotpot.cosmos.desktop.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -28,22 +29,26 @@ fun SongGrid(title: String, queueSongList: List<QueueSong>) {
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 2.dp, vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(queueSongList.size) { SongGridItem(queueSongList[it]) }
+            items(queueSongList.size) { SongGridItem(queueSongList[it], {}) }
         }
     }
 }
 
 
 @Composable
-fun SongGridItem(queueSong: QueueSong) {
+fun SongGridItem(queueSong: QueueSong, onSongClick: () -> Unit) {
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable { onSongClick() }
+            .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
 
         Image(

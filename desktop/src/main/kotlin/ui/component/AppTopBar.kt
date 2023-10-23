@@ -54,7 +54,7 @@ fun FrameWindowScope.AppTopBar(
         ) {
             Logo(
                 modifier = Modifier
-                    .padding(start = 28.dp, top = 21.dp)
+                    .padding(start = 22.dp, top = 14.dp)
             )
         }
         WindowControl(
