@@ -1,6 +1,6 @@
 package org.kotpot.cosmos.desktop.ui.state
 
-data class BottomControlBarState(
+data class PlayerBarState(
     val title: String = "",
     val artist: String = "",
     val songLength: Long = 0,

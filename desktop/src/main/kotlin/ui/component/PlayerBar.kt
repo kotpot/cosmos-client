@@ -12,16 +12,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.ui.icon.*
-import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
-import org.kotpot.cosmos.desktop.ui.viewmodel.BottomControlBarViewModel
+import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
+import org.kotpot.cosmos.desktop.ui.viewmodel.PlayerBarViewModel
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 
 @Composable
-fun BottomControlBar(
-    bottomControlBarState: BottomControlBarState,
+fun PlayerBar(
+    playerBarState: PlayerBarState,
     modifier: Modifier
 ) {
-    val viewModel = koinInject<BottomControlBarViewModel>()
+    val viewModel = koinInject<PlayerBarViewModel>()
     val state by viewModel.uiState.collectAsState()
 
     Row(
@@ -32,16 +32,16 @@ fun BottomControlBar(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(0.19f),
-            title = bottomControlBarState.title,
-            artist = bottomControlBarState.artist
+            title = playerBarState.title,
+            artist = playerBarState.artist
         )
         MusicControl(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(0.62f),
-            playedLength = bottomControlBarState.playedLength,
-            songLength = bottomControlBarState.songLength,
-            isPaused = bottomControlBarState.isPaused
+            playedLength = playerBarState.playedLength,
+            songLength = playerBarState.songLength,
+            isPaused = playerBarState.isPaused,
         )
         VolumeControl(
             volume = state.volume,

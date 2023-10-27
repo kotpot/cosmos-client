@@ -5,19 +5,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.java.KoinJavaComponent.inject
 import org.kotpot.cosmos.desktop.player.CosmosAudioPlayer
-import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
+import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
 import org.kotpot.cosmos.shared.viewmodel.ViewModel
+import java.io.File
 
-class BottomControlBarViewModel : ViewModel() {
+class PlayerBarViewModel : ViewModel() {
 
     private val audioPlayer by inject<CosmosAudioPlayer>(CosmosAudioPlayer::class.java)
 
-    private val _uiState = MutableStateFlow(BottomControlBarState())
+    private val _uiState = MutableStateFlow(PlayerBarState())
     val uiState = _uiState.asStateFlow()
+
+    fun onSongClick(url: String) {
+        audioPlayer.open(File(url))
+    }
 
     fun onPlayPauseClick() {
         if (audioPlayer.isPaused) {
             audioPlayer.resume()
+        } else if (audioPlayer.isOpened) {
+            audioPlayer.play()
         } else {
             audioPlayer.pause()
         }

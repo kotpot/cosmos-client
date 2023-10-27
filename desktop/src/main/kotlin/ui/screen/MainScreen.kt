@@ -30,7 +30,7 @@ import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
 import org.kotpot.cosmos.desktop.ui.main.SettingContent
-import org.kotpot.cosmos.desktop.ui.state.BottomControlBarState
+import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
 
 @Composable
 fun FrameWindowScope.MainScreen(
@@ -180,20 +180,20 @@ fun MainScreenContent(
                 )
             }
         }
-        BottomControlBar(
+        PlayerBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(0.125f)
                 .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
                 .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            bottomControlBarState = bottomControlBarState
+            playerBarState = playerBarState
         )
     }
 }
 
 
-val bottomControlBarState = BottomControlBarState(
+val playerBarState = PlayerBarState(
     title = "きらめき＊Chocolaterie",
     artist = "KyoKa",
     playedLength = 65000,
