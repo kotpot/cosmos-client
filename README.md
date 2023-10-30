@@ -19,3 +19,11 @@ Fetch the latest code
 ```shell
 git submodule update --remote
 ```
+
+## TODO
+
+- DataStore
+- Log Util
+- Net protocol
+- Route lifecycle
+- viewModel scope
