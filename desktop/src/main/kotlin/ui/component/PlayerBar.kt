@@ -12,13 +12,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.ui.icon.*
-import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
 import org.kotpot.cosmos.desktop.ui.viewmodel.PlayerBarViewModel
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 
 @Composable
 fun PlayerBar(
-    playerBarState: PlayerBarState,
     modifier: Modifier
 ) {
     val viewModel = koinInject<PlayerBarViewModel>()
@@ -32,16 +30,18 @@ fun PlayerBar(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(0.19f),
-            title = playerBarState.title,
-            artist = playerBarState.artist
+            title = state.title,
+            artist = state.artist
         )
         MusicControl(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(0.62f),
-            playedLength = playerBarState.playedLength,
-            songLength = playerBarState.songLength,
-            isPaused = playerBarState.isPaused,
+            playedLength = state.playedLength,
+            songLength = state.songLength,
+            isPaused = state.isPaused,
+            onPauseClick = { viewModel.onPlayPauseClick() },
+            onProgressBarClick = { viewModel.onProgressBarClick(it) }
         )
         VolumeControl(
             volume = state.volume,
@@ -67,14 +67,16 @@ fun SongInfo(
 
         Row {
             Text(
-                text = title,
+                text = _title,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = { textLayoutResult ->
-                    if (textLayoutResult.hasVisualOverflow) {
-                        _title = _title.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                    _title = if (textLayoutResult.hasVisualOverflow) {
+                        _title.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                    } else {
+                        title
                     }
                 }
             )
@@ -93,8 +95,10 @@ fun SongInfo(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             onTextLayout = { textLayoutResult ->
-                if (textLayoutResult.hasVisualOverflow) {
-                    _artist = _artist.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                _artist = if (textLayoutResult.hasVisualOverflow) {
+                    _artist.dropLast(4).plus("...") //TODO: Remove once compose-multiplatform#1888 is fixed
+                } else {
+                    artist
                 }
             }
         )
@@ -106,6 +110,8 @@ fun MusicControl(
     songLength: Long,
     playedLength: Long,
     isPaused: Boolean,
+    onPauseClick: () -> Unit,
+    onProgressBarClick: (Float) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier) {
@@ -123,7 +129,7 @@ fun MusicControl(
                     false -> CosmosIcons.Pause
                 },
                 contentDescription = "Pause/Resume",
-                modifier = Modifier.clickable { !isPaused } //TODO: LOGIC
+                modifier = Modifier.clickable { onPauseClick() } //TODO: LOGIC
             )
             Icon(
                 imageVector = CosmosIcons.SkipNext,
@@ -153,7 +159,7 @@ fun MusicControl(
         }
         CosmosSlider(
             value = playedLength.toFloat().div(songLength),
-            onValueChange = {}, //TODO: LOGIC
+            onValueChange = { onProgressBarClick(it) },
             valueRange = 0f..1f,
             modifier = Modifier.fillMaxWidth()
         )

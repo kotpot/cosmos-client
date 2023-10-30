@@ -15,14 +15,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
-import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
+import org.kotpot.cosmos.shared.model.Song
+import org.kotpot.cosmos.shared.model.flattenName
 
 @Composable
 fun SongQueue(
-    songs: List<QueueSong>,
+    songs: List<Song>,
     modifier: Modifier
 ) {
     Column(
@@ -31,7 +32,7 @@ fun SongQueue(
         ListCard(
             icon = CosmosIcons.QueueMusic,
             title = LocaleString::mainQueueListTitle.from(),
-            additionalText = "${songs.size} - ${songs.sumOf { it.songLength }.formatMilliseconds()}"
+            additionalText = "${songs.size} - ${songs.sumOf { it.duration ?: 0 }.formatMilliseconds()}"
         ) {
             items(songs) {
                 SongQueueItem(it)
@@ -42,11 +43,11 @@ fun SongQueue(
 
 @Composable
 fun SongQueueItem(
-    song: QueueSong
+    song: Song
 ) {
     Row {
         Image(
-            painter = painterResource(song.albumCover),
+            painter = painterResource(song.album?.imgUrl ?: ""),
             contentDescription = "Queue album cover",
             modifier = Modifier
                 .padding(end = 12.dp)
@@ -58,10 +59,10 @@ fun SongQueueItem(
             modifier = Modifier.offset(0.dp, (-2).dp)
         ) {
             var title by remember { mutableStateOf(song.title) }
-            var artist by remember { mutableStateOf(song.artist) }
+            var artist by remember { mutableStateOf(song.artists.flattenName()) }
 
             Text(
-                text = song.title,
+                text = title,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
@@ -73,7 +74,7 @@ fun SongQueueItem(
                 }
             )
             Text(
-                text = song.artist,
+                text = artist,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,

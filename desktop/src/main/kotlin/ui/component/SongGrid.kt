@@ -16,10 +16,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.kotpot.cosmos.desktop.model.QueueSong
+import org.kotpot.cosmos.shared.model.Song
 
 @Composable
-fun SongGrid(title: String, queueSongList: List<QueueSong>) {
+fun SongGrid(title: String, songList: List<Song>, onSongClicked: (Song) -> Unit) {
     Column {
         Text(
             modifier = Modifier
@@ -33,14 +33,18 @@ fun SongGrid(title: String, queueSongList: List<QueueSong>) {
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(queueSongList.size) { SongGridItem(queueSongList[it], {}) }
+            items(songList.size) {
+                SongGridItem(songList[it]) {
+                    onSongClicked(songList[it])
+                }
+            }
         }
     }
 }
 
 
 @Composable
-fun SongGridItem(queueSong: QueueSong, onSongClick: () -> Unit) {
+fun SongGridItem(song: Song, onSongClick: () -> Unit) {
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -60,15 +64,15 @@ fun SongGridItem(queueSong: QueueSong, onSongClick: () -> Unit) {
                     shape = RoundedCornerShape(size = 5.dp)
                 )
                 .size(36.dp),
-            painter = painterResource(queueSong.albumCover),
+            painter = painterResource(song.album?.imgUrl ?: ""),
             contentDescription = null,
         )
 
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            var title by remember { mutableStateOf(queueSong.title) }
-            var artist by remember { mutableStateOf(queueSong.artist) }
+            var title by remember { mutableStateOf(song.title) }
+            var artist by remember { mutableStateOf(song.artists.first().name) }
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,

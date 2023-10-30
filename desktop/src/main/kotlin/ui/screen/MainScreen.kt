@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,10 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
+import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
-import org.kotpot.cosmos.desktop.model.Member
-import org.kotpot.cosmos.desktop.model.QueueSong
 import org.kotpot.cosmos.desktop.router.AnimationRouteContent
 import org.kotpot.cosmos.desktop.router.AnimationRouteController
 import org.kotpot.cosmos.desktop.ui.component.*
@@ -30,7 +30,11 @@ import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
 import org.kotpot.cosmos.desktop.ui.main.SettingContent
-import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
+import org.kotpot.cosmos.desktop.ui.viewmodel.MainScreenViewModel
+import org.kotpot.cosmos.shared.model.Album
+import org.kotpot.cosmos.shared.model.Artist
+import org.kotpot.cosmos.shared.model.Member
+import org.kotpot.cosmos.shared.model.Song
 
 @Composable
 fun FrameWindowScope.MainScreen(
@@ -38,6 +42,13 @@ fun FrameWindowScope.MainScreen(
     exitApplication: () -> Unit
 ) {
     val navController by remember { mutableStateOf(AnimationRouteController(NavType.HOME, 6)) }
+
+    val viewModel = koinInject<MainScreenViewModel>()
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getAlbumCover()
+    }
 
     Box(
         modifier = Modifier
@@ -61,13 +72,14 @@ fun FrameWindowScope.MainScreen(
             windowState,
             exitApplication
         )
-        MainScreenContent(navController)
+        MainScreenContent(navController, state)
     }
 }
 
 @Composable
 fun MainScreenContent(
-    navController: AnimationRouteController<NavType>
+    navController: AnimationRouteController<NavType>,
+    state: String
 ) {
     var text by remember { mutableStateOf("") }
     val enableBackward = navController.curStackSize.value > 1
@@ -133,15 +145,25 @@ fun MainScreenContent(
             ) {
                 NavigationRail(navController)
                 Spacer(modifier = Modifier.weight(1f))
-                Image(
-                    painter = painterResource("image/album_cover.png"),
-                    contentDescription = "Album cover",
+                Surface(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                        .fillMaxSize()
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
                         .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.FillWidth
-                )
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    if (state.isNotEmpty()) {
+                        Image(
+                            painter = painterResource(state),
+                            contentDescription = "Album cover",
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentScale = ContentScale.FillWidth
+                        )
+                    }
+                }
             }
 
             AnimationRouteContent(
@@ -187,20 +209,9 @@ fun MainScreenContent(
                 .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
                 .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            playerBarState = playerBarState
         )
     }
 }
-
-
-val playerBarState = PlayerBarState(
-    title = "きらめき＊Chocolaterie",
-    artist = "KyoKa",
-    playedLength = 65000,
-    songLength = 180000,
-    volume = 50f,
-    isPaused = false
-)
 
 val memberList = listOf(
     Member(
@@ -216,22 +227,115 @@ val memberList = listOf(
 )
 
 val queueSongList = listOf(
-    QueueSong(
-        albumCover = "image/album_cover.png",
+    Song(
+        type = "netease",
+        id = "123",
         title = "きらめき＊Chocolaterie",
-        artist = "KyoKa",
-        songLength = 214000
+        altTitle = null,
+        url = null,
+        duration = 214200,
+        artists = listOf(
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            )
+        ),
+        album = Album(
+            type = "netease",
+            id = "123",
+            title = "きらめき＊Chocolaterie",
+            altTitle = null,
+            imgUrl = "image/album_cover.png",
+            songs = null,
+            artists = null
+        )
     ),
-    QueueSong(
-        albumCover = "image/album_cover.png",
+    Song(
+        type = "netease",
+        id = "123",
         title = "きらめき＊Chocolaterie",
-        artist = "KyoKa",
-        songLength = 214000
+        altTitle = null,
+        url = null,
+        duration = 214200,
+        artists = listOf(
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            ),
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            )
+        ),
+        album = Album(
+            type = "netease",
+            id = "123",
+            title = "きらめき＊Chocolaterie",
+            altTitle = null,
+            imgUrl = "image/album_cover.png",
+            songs = null,
+            artists = null
+        )
     ),
-    QueueSong(
-        albumCover = "image/album_cover.png",
+    Song(
+        type = "netease",
+        id = "123",
         title = "きらめき＊Chocolaterie",
-        artist = "KyoKa",
-        songLength = 214000
+        altTitle = null,
+        url = null,
+        duration = 214200,
+        artists = listOf(
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            ),
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            ),
+            Artist(
+                type = "netease",
+                id = "123",
+                name = "KyoKa",
+                altName = null,
+                imgUrl = null,
+                songs = null,
+                albums = null
+            )
+        ),
+        album = Album(
+            type = "netease",
+            id = "123",
+            title = "きらめき＊Chocolaterie",
+            altTitle = null,
+            imgUrl = "image/album_cover.png",
+            songs = null,
+            artists = null
+        )
     )
 )

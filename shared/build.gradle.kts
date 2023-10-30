@@ -17,6 +17,7 @@ kotlin {
                 implementation(libs.ktor.loging)
                 api(libs.koin.core)
                 implementation(libs.compose.material3)
+                api(libs.vlcj)
                 api(project(":cosmos-protocol"))
             }
         }

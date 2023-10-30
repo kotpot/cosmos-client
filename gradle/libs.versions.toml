@@ -4,7 +4,7 @@ compose = "1.5.1"
 ktor = "2.3.4"
 koin = "3.5.0"
 koin-compose = "1.1.0"
-java-stream-player = "10.0.2"
+vlcj = "4.8.2"
 
 [libraries]
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
@@ -18,7 +18,7 @@ koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = 
 
 compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3-desktop", version.ref = "compose" }
 
-java-stream-player = { group = "com.github.goxr3plus", name = "java-stream-player", version.ref = "java-stream-player" }
+vlcj = { group = "uk.co.caprica", name = "vlcj", version.ref = "vlcj" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

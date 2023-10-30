@@ -20,10 +20,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
-import org.kotpot.cosmos.desktop.model.Member
 import org.kotpot.cosmos.desktop.ui.icon.Add
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.Group
+import org.kotpot.cosmos.shared.model.Member
 
 @Composable
 fun MemberList(
