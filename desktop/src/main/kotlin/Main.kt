@@ -32,43 +32,40 @@ import org.kotpot.cosmos.shared.di.initKoin
 
 fun main() = application {
 
-    initKoin(appDeclaration = { modules(appModule) })
-
-    KoinContext {
-        Window(
-            onCloseRequest = ::exitApplication,
-            state = GlobalWindowManager.windowState,
-            title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
-            icon = painterResource("image/logo.svg"),
-            resizable = false,
-            transparent = true,
-            undecorated = true,
-        ) {
-            CosmosTheme {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
-                ) {
-                    AnimationRouteScreen(
-                        GlobalRouteManager.controller,
-                        GlobalRouter.entries.toTypedArray(),
-                        enter = {
-                            if (it == GlobalRouter.Setup) fadeIn(tween(500))
-                            else defaultRouteScreenEnter()
-                        },
-                        exit = {
-                            if (it == GlobalRouter.Startup) fadeOut(tween(500))
-                            else defaultRouteScreenExit()
-                        }
-                    ) {
-                        GlobalRouteScreen(it)
+    Window(
+        onCloseRequest = ::exitApplication,
+        state = GlobalWindowManager.windowState,
+        title = "Cosmos", //TODO: Use a constant instead of a hardcoded string
+        icon = painterResource("image/logo.svg"),
+        resizable = false,
+        transparent = true,
+        undecorated = true,
+    ) {
+        CosmosTheme {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.shapes.small)
+            ) {
+                AnimationRouteScreen(
+                    GlobalRouteManager.controller,
+                    GlobalRouter.entries.toTypedArray(),
+                    enter = {
+                        if (it == GlobalRouter.Setup) fadeIn(tween(500))
+                        else defaultRouteScreenEnter()
+                    },
+                    exit = {
+                        if (it == GlobalRouter.Startup) fadeOut(tween(500))
+                        else defaultRouteScreenExit()
                     }
+                ) {
+                    GlobalRouteScreen(it)
                 }
             }
         }
     }
+
 }
 
 context(FrameWindowScope, ApplicationScope)

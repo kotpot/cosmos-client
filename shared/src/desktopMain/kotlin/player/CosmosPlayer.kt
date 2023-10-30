@@ -20,7 +20,7 @@ actual class CosmosPlayer {
     }
 
     private fun initPlayer() {
-        mediaPlayer = MediaPlayerFactory().mediaPlayers().newMediaPlayer()
+        // mediaPlayer = MediaPlayerFactory().mediaPlayers().newMediaPlayer()
 
         mediaPlayer?.events()?.addMediaPlayerEventListener(object : MediaPlayerEventAdapter() {
             override fun mediaPlayerReady(mediaPlayer: MediaPlayer?) {

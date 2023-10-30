@@ -14,15 +14,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import org.kotpot.cosmos.desktop.di.appModule
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.ui.theme.Monorale
+import org.kotpot.cosmos.shared.di.initKoin
+
+private suspend fun waitInit() = withContext(Dispatchers.IO) {
+
+    initKoin(appDeclaration = { modules(appModule) })
+
+    // init theme config
+
+    // init client config
+
+    // init user
+
+    delay(2000)
+}
 
 @Composable
 fun Startup() {
 
     LaunchedEffect(true) {
-        delay(1000)
+
+        waitInit()
+
         GlobalRouteManager.animeToSetup()
     }
 

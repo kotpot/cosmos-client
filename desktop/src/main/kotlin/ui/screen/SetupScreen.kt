@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
+import org.koin.compose.KoinContext
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
@@ -30,7 +31,7 @@ import org.kotpot.cosmos.desktop.ui.theme.Monorale
 fun FrameWindowScope.SetupScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
-) {
+) = KoinContext {
     var text by remember {
         mutableStateOf("")
     }

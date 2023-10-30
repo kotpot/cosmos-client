@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.WindowState
+import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
@@ -40,7 +41,7 @@ import org.kotpot.cosmos.shared.model.Song
 fun FrameWindowScope.MainScreen(
     windowState: WindowState,
     exitApplication: () -> Unit
-) {
+)= KoinContext {
     val navController by remember { mutableStateOf(AnimationRouteController(NavType.HOME, 6)) }
 
     val viewModel = koinInject<MainScreenViewModel>()
