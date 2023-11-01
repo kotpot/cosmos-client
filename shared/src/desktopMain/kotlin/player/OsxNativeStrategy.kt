@@ -32,7 +32,7 @@ class OsxNativeDiscoveryStrategy : DirectoryProviderDiscoveryStrategy(FILENAME_P
         )
 
         private val PLUGIN_PATH_FORMATS = arrayOf(
-            "%s\\osxPlugins"
+            "%s/osxPlugins"
         )
     }
 }

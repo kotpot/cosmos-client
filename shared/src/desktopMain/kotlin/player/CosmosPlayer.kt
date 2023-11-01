@@ -9,6 +9,7 @@ import uk.co.caprica.vlcj.media.MediaRef
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent
+import uk.co.caprica.vlcj.support.Info
 import kotlin.math.log
 
 actual class CosmosPlayer {
@@ -24,15 +25,24 @@ actual class CosmosPlayer {
     }
 
     private fun initPlayer() {
+        val nativeDiscovery = NativeDiscovery(
+            LinuxNativeDiscoveryStrategy(),
+            WindowsNativeDiscoveryStrategy(),
+            OsxNativeDiscoveryStrategy()
+        )
+
+        println(nativeDiscovery.discover())
+        println(nativeDiscovery.discoveredPath())
+        println(nativeDiscovery.successfulStrategy())
+
+        println(System.getenv("LD_LIBRARY_PATH"))
+        println(System.getenv("VLC_PLUGIN_PATH"))
+
         mediaPlayer = AudioPlayerComponent(
             MediaPlayerFactory(
-                NativeDiscovery(
-                    LinuxNativeDiscoveryStrategy(),
-                    WindowsNativeDiscoveryStrategy(),
-                    OsxNativeDiscoveryStrategy()
-                ),
-                "--quiet",
-                "--intf=dummy"
+                nativeDiscovery,
+//                "--quiet",
+//                "--intf=dummy",
             )
         ).mediaPlayer()
 
