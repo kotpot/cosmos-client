@@ -19,7 +19,7 @@ class WinNativeDiscoveryStrategy: DirectoryProviderDiscoveryStrategy(FILENAME_PA
         )
 
         private val PLUGIN_PATH_FORMATS = arrayOf(
-            "%s/../winX86Plugins"
+            "%s\\..\\win64Plugins"
         )
     }
 }

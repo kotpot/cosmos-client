@@ -5,7 +5,7 @@ import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil
 class WinDirectoryProvider : UserDirDirectoryProvider() {
 
     private val DIRECTORIES = arrayOf(
-        "$path/lib/winX86Core",
+        "$path\\lib\\win64Core",
     )
 
     override fun directories(): Array<String> {
