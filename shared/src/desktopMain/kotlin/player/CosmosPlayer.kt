@@ -1,15 +1,15 @@
 package org.kotpot.cosmos.shared.player
 
 import org.kotpot.cosmos.shared.model.Song
+import org.kotpot.cosmos.shared.vlcj.strategy.OsxNativeDiscoveryStrategy
+import org.kotpot.cosmos.shared.vlcj.strategy.WinNativeDiscoveryStrategy
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory
 import uk.co.caprica.vlcj.factory.discovery.NativeDiscovery
 import uk.co.caprica.vlcj.factory.discovery.strategy.LinuxNativeDiscoveryStrategy
-import uk.co.caprica.vlcj.factory.discovery.strategy.WindowsNativeDiscoveryStrategy
 import uk.co.caprica.vlcj.media.MediaRef
 import uk.co.caprica.vlcj.player.base.MediaPlayer
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent
-import uk.co.caprica.vlcj.support.Info
 import kotlin.math.log
 
 actual class CosmosPlayer {
@@ -27,7 +27,7 @@ actual class CosmosPlayer {
     private fun initPlayer() {
         val nativeDiscovery = NativeDiscovery(
             LinuxNativeDiscoveryStrategy(),
-            WindowsNativeDiscoveryStrategy(),
+            WinNativeDiscoveryStrategy(),
             OsxNativeDiscoveryStrategy()
         )
 
@@ -35,14 +35,12 @@ actual class CosmosPlayer {
         println(nativeDiscovery.discoveredPath())
         println(nativeDiscovery.successfulStrategy())
 
-        println(System.getenv("LD_LIBRARY_PATH"))
-        println(System.getenv("VLC_PLUGIN_PATH"))
-
         mediaPlayer = AudioPlayerComponent(
             MediaPlayerFactory(
                 nativeDiscovery,
-//                "--quiet",
-//                "--intf=dummy",
+                "--quiet",
+                "--intf=dummy",
+                "--reset-plugins-cache"
             )
         ).mediaPlayer()
 
@@ -77,32 +75,6 @@ actual class CosmosPlayer {
         })
 
     }
-
-//    fun directories(): Array<String?> {
-//        var reader: Reader? = null
-//        try {
-//            val configurationFile: File = File(System.getProperty("user.dir"), "vlcj.config")
-//            val properties = Properties()
-//            reader = FileReader(configurationFile)
-//            properties.load(reader)
-//            val directory = properties.getProperty("nativeDirectory")
-//            if (directory != null) {
-//                return arrayOf(directory)
-//            }
-//        } catch (e: FileNotFoundException) {
-//            // Nothing
-//        } catch (e: IOException) {
-//            System.err.printf("Failed to load configuration file: %s%n", e.message)
-//        } finally {
-//            if (reader != null) {
-//                try {
-//                    reader.close()
-//                } catch (e: IOException) {
-//                }
-//            }
-//        }
-//        return arrayOfNulls(0)
-//    }
 
     fun setListener(listener: MediaPlayerListener) {
         this.listener = listener
