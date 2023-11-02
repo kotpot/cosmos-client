@@ -31,7 +31,7 @@ import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
 import org.kotpot.cosmos.desktop.ui.main.SettingContent
-import org.kotpot.cosmos.desktop.ui.viewmodel.MainScreenViewModel
+import org.kotpot.cosmos.desktop.ui.viewmodel.screen.MainScreenViewModel
 import org.kotpot.cosmos.shared.model.Album
 import org.kotpot.cosmos.shared.model.Artist
 import org.kotpot.cosmos.shared.model.Member

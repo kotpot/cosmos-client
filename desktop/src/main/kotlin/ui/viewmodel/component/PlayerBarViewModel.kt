@@ -1,10 +1,10 @@
-package org.kotpot.cosmos.desktop.ui.viewmodel
+package org.kotpot.cosmos.desktop.ui.viewmodel.component
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.java.KoinJavaComponent.inject
-import org.kotpot.cosmos.desktop.ui.state.PlayerBarState
+import org.kotpot.cosmos.desktop.ui.state.component.PlayerBarState
 import org.kotpot.cosmos.shared.model.Song
 import org.kotpot.cosmos.shared.model.flattenName
 import org.kotpot.cosmos.shared.player.CosmosPlayer

@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.viewmodel
+package org.kotpot.cosmos.desktop.ui.viewmodel.screen
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -9,8 +9,8 @@ import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
-import org.kotpot.cosmos.desktop.ui.component.SongGrid
-import org.kotpot.cosmos.desktop.ui.viewmodel.PlayerBarViewModel
+import org.kotpot.cosmos.desktop.ui.component.business.SongGrid
+import org.kotpot.cosmos.desktop.ui.viewmodel.component.PlayerBarViewModel
 import org.kotpot.cosmos.shared.model.Album
 import org.kotpot.cosmos.shared.model.Artist
 import org.kotpot.cosmos.shared.model.Song

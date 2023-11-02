@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.state
+package org.kotpot.cosmos.desktop.ui.state.component
 
 data class PlayerBarState(
     val title: String = "",

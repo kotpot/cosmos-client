@@ -20,9 +20,9 @@ import org.koin.compose.KoinContext
 import org.kotpot.cosmos.desktop.global.GlobalRouteManager
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
-import org.kotpot.cosmos.desktop.ui.component.AppTopBar
-import org.kotpot.cosmos.desktop.ui.component.LargeTextField
-import org.kotpot.cosmos.desktop.ui.component.SimpleButton
+import org.kotpot.cosmos.desktop.ui.component.application.AppTopBar
+import org.kotpot.cosmos.desktop.ui.component.puppet.LargeTextField
+import org.kotpot.cosmos.desktop.ui.component.puppet.SimpleButton
 import org.kotpot.cosmos.desktop.ui.icon.ArrowForward
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.theme.Monorale

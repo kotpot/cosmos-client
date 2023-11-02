@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component
+package org.kotpot.cosmos.desktop.ui.component.container
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
+import org.kotpot.cosmos.desktop.ui.component.puppet.CosmosSlider
 import org.kotpot.cosmos.desktop.ui.icon.*
-import org.kotpot.cosmos.desktop.ui.viewmodel.PlayerBarViewModel
+import org.kotpot.cosmos.desktop.ui.viewmodel.component.PlayerBarViewModel
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 
 @Composable

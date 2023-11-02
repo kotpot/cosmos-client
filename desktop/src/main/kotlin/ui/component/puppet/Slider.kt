@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component
+package org.kotpot.cosmos.desktop.ui.component.puppet
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures

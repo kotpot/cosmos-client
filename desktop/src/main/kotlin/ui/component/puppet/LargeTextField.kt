@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component
+package org.kotpot.cosmos.desktop.ui.component.puppet
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background

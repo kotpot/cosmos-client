@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component
+package org.kotpot.cosmos.desktop.ui.component.business
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
