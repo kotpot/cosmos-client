@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component.business
+package org.kotpot.cosmos.desktop.ui.component.business.room.side
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,37 +17,52 @@ import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
-import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
-import org.kotpot.cosmos.desktop.ui.state.component.MemberSongState
+import org.kotpot.cosmos.desktop.ui.icon.Group
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 import org.kotpot.cosmos.shared.model.Song
 import org.kotpot.cosmos.shared.model.flattenName
 
-@Composable
-fun SongQueue(
-    state: MemberSongState,
-    onFoldClick: () -> Unit,
-    modifier: Modifier,
+
+class SongQueueCardStateProvider(
+    val requireSongs: () -> List<Song>,
+    val isExpand: () -> Boolean
 ) {
-    Column(
-        modifier
-    ) {
-        ListCard(
-            icon = CosmosIcons.QueueMusic,
-            title = LocaleString::mainQueueListTitle.from(),
-            additionalText = "${state.queue.size} - ${state.queue.sumOf { it.duration ?: 0 }.formatMilliseconds()}",
-            isFolded = state.isQueueFolded,
-            onFoldClick = { onFoldClick() },
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
-        ) {
-            items(state.queue) {
-                SongQueueItem(it)
-            }
-        }
+    val additional get() = requireSongs().let {songs ->
+        "${songs.size} - ${songs.sumOf { it.duration ?: 0 }.formatMilliseconds()}"
     }
 }
+
+class SongQueueCardStateActions(
+    val expand: () -> Unit
+)
+
+@Composable
+fun ColumnScope.SongQueueCard(
+    provider: SongQueueCardStateProvider,
+    action: SongQueueCardStateActions,
+) = RoomSideExpandableListCard(
+    provider.isExpand,
+    header = {
+        Header( { provider.additional },
+        action.expand
+    ) }
+) {
+    items(provider.requireSongs()) {
+        SongQueueItem(it)
+    }
+}
+
+@Composable
+private fun Header(
+    additional: () -> String,
+    onFoldClick: () -> Unit
+) = RoomSideListHeader(
+    icon = CosmosIcons.Group,
+    title = LocaleString::mainQueueListTitle.from(),
+    additional = additional,
+    onFoldClick = onFoldClick
+)
+
 
 @Composable
 fun SongQueueItem(

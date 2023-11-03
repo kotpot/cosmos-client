@@ -1,38 +1,57 @@
 package org.kotpot.cosmos.desktop.ui.component.container
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.compose.koinInject
-import org.kotpot.cosmos.desktop.ui.component.business.MemberList
-import org.kotpot.cosmos.desktop.ui.component.business.SongQueue
+import org.koin.compose.rememberKoinInject
+import org.kotpot.cosmos.desktop.ui.component.business.room.side.*
 import org.kotpot.cosmos.desktop.ui.viewmodel.component.MemberSongViewModel
 
 @Composable
 fun MemberSongSidebar(
     modifier: Modifier = Modifier,
-    viewModel: MemberSongViewModel = koinInject()
 ) {
-    val state by viewModel.uiState.collectAsState()
+    val viewModel = rememberKoinInject<MemberSongViewModel>()
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        MemberList(
-            modifier = if (state.isMemberFolded) Modifier.fillMaxWidth() else Modifier.fillMaxWidth().weight(1f),
-            state = state,
-            onFoldClick = { viewModel.foldList("Member") }
-        )
-        SongQueue(
-            modifier = if (state.isQueueFolded) Modifier.fillMaxWidth() else Modifier.fillMaxWidth().weight(1f),
-            state = state,
-            onFoldClick = { viewModel.foldList("Queue") }
-        )
+
+        MemberListCardImpl(viewModel)
+        Spacer(Modifier.height(8.dp))
+        SongQueueCardImpl(viewModel)
     }
 }
+
+@Composable
+fun ColumnScope.MemberListCardImpl(viewModel: MemberSongViewModel) {
+    val provider = MemberListCardStateProvider(
+        requireMembers = { viewModel.members },
+        isExpand = { viewModel.expandState.value.isMember() }
+    )
+    val actions = MemberListCardStateActions(
+        expand = { viewModel.expand(MemberSongViewModel.ExpandType.Member) }
+    )
+    MemberListCard(provider, actions)
+}
+
+
+@Composable
+fun ColumnScope.SongQueueCardImpl(viewModel: MemberSongViewModel) {
+    val provider = SongQueueCardStateProvider(
+        requireSongs = { viewModel.songs },
+        isExpand = { viewModel.expandState.value.isQueue() }
+    )
+    val actions = SongQueueCardStateActions(
+        expand = { viewModel.expand(MemberSongViewModel.ExpandType.Queue) }
+    )
+    SongQueueCard(provider, actions)
+}
+
+
+
+
+

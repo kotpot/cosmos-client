@@ -1,4 +1,4 @@
-package org.kotpot.cosmos.desktop.ui.component.business
+package org.kotpot.cosmos.desktop.ui.component.business.room.side
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,40 +23,51 @@ import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.icon.Add
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.Group
-import org.kotpot.cosmos.desktop.ui.state.component.MemberSongState
 import org.kotpot.cosmos.shared.model.Member
 
+
+class MemberListCardStateProvider(
+    val requireMembers: () -> List<Member>,
+    val isExpand: () -> Boolean
+)
+
+class MemberListCardStateActions(
+    val expand: () -> Unit
+)
+
+
 @Composable
-fun MemberList(
-    state: MemberSongState,
-    onFoldClick: () -> Unit,
-    modifier: Modifier
+fun ColumnScope.MemberListCard(
+    provider: MemberListCardStateProvider,
+    action: MemberListCardStateActions,
+) = RoomSideExpandableListCard(
+    provider.isExpand,
+    header = { Header(
+        { provider.requireMembers().size.toString() },
+        action.expand
+    ) }
 ) {
-    Column(
-        modifier
-    ) {
-        ListCard(
-            icon = CosmosIcons.Group,
-            title = LocaleString::mainMemberListTitle.from(),
-            additionalText = state.member.size.toString(),
-            isFolded = state.isMemberFolded,
-            onFoldClick = { onFoldClick() },
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
-                .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
-        ) {
-            items(state.member) {
-                MemberListItem(it)
-            }
-            item {
-                InviteItem()
-            }
-        }
+    items(provider.requireMembers()) {
+        MemberListItem(it)
+    }
+    item {
+        InviteItem()
     }
 }
 
 @Composable
-fun MemberListItem(
+private fun Header(
+    additional: () -> String,
+    onFoldClick: () -> Unit
+) = RoomSideListHeader(
+    icon = CosmosIcons.Group,
+    title = LocaleString::mainMemberListTitle.from(),
+    additional = additional,
+    onFoldClick = onFoldClick
+)
+
+@Composable
+private fun MemberListItem(
     member: Member
 ) {
     Row(
@@ -101,7 +112,7 @@ fun MemberListItem(
 }
 
 @Composable
-fun InviteItem() {
+private fun InviteItem() {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
