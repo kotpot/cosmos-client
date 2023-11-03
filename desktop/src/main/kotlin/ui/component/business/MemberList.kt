@@ -23,11 +23,13 @@ import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.icon.Add
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.Group
+import org.kotpot.cosmos.desktop.ui.state.component.MemberSongState
 import org.kotpot.cosmos.shared.model.Member
 
 @Composable
 fun MemberList(
-    members: List<Member>,
+    state: MemberSongState,
+    onFoldClick: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -36,9 +38,14 @@ fun MemberList(
         ListCard(
             icon = CosmosIcons.Group,
             title = LocaleString::mainMemberListTitle.from(),
-            additionalText = members.size.toString(),
+            additionalText = state.member.size.toString(),
+            isFolded = state.isMemberFolded,
+            onFoldClick = { onFoldClick() },
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
         ) {
-            items(members) {
+            items(state.member) {
                 MemberListItem(it)
             }
             item {

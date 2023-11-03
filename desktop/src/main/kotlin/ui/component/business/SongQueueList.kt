@@ -1,6 +1,7 @@
 package org.kotpot.cosmos.desktop.ui.component.business
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
@@ -17,14 +18,16 @@ import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
+import org.kotpot.cosmos.desktop.ui.state.component.MemberSongState
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 import org.kotpot.cosmos.shared.model.Song
 import org.kotpot.cosmos.shared.model.flattenName
 
 @Composable
 fun SongQueue(
-    songs: List<Song>,
-    modifier: Modifier
+    state: MemberSongState,
+    onFoldClick: () -> Unit,
+    modifier: Modifier,
 ) {
     Column(
         modifier
@@ -32,9 +35,14 @@ fun SongQueue(
         ListCard(
             icon = CosmosIcons.QueueMusic,
             title = LocaleString::mainQueueListTitle.from(),
-            additionalText = "${songs.size} - ${songs.sumOf { it.duration ?: 0 }.formatMilliseconds()}"
+            additionalText = "${state.queue.size} - ${state.queue.sumOf { it.duration ?: 0 }.formatMilliseconds()}",
+            isFolded = state.isQueueFolded,
+            onFoldClick = { onFoldClick() },
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
+                .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small)
         ) {
-            items(songs) {
+            items(state.queue) {
                 SongQueueItem(it)
             }
         }

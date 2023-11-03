@@ -25,17 +25,18 @@ import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.router.AnimationRouteContent
 import org.kotpot.cosmos.desktop.router.AnimationRouteController
-import org.kotpot.cosmos.desktop.ui.component.*
+import org.kotpot.cosmos.desktop.ui.component.application.AppTopBar
+import org.kotpot.cosmos.desktop.ui.component.container.MemberSongSidebar
+import org.kotpot.cosmos.desktop.ui.component.container.NavType
+import org.kotpot.cosmos.desktop.ui.component.container.NavigationRail
+import org.kotpot.cosmos.desktop.ui.component.container.PlayerBar
+import org.kotpot.cosmos.desktop.ui.component.puppet.LargeTextField
 import org.kotpot.cosmos.desktop.ui.icon.ArrowForward
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
 import org.kotpot.cosmos.desktop.ui.main.HomeContent
 import org.kotpot.cosmos.desktop.ui.main.LibraryContent
 import org.kotpot.cosmos.desktop.ui.main.SettingContent
 import org.kotpot.cosmos.desktop.ui.viewmodel.screen.MainScreenViewModel
-import org.kotpot.cosmos.shared.model.Album
-import org.kotpot.cosmos.shared.model.Artist
-import org.kotpot.cosmos.shared.model.Member
-import org.kotpot.cosmos.shared.model.Song
 
 @Composable
 fun FrameWindowScope.MainScreen(
@@ -183,25 +184,11 @@ fun MainScreenContent(
                 }
             }
 
-            Column(
+            MemberSongSidebar(
                 modifier = Modifier
                     .weight(0.2f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                MemberList(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    members = memberList
-                )
-                SongQueue(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
-                    songs = queueSongList
-                )
-            }
+                    .fillMaxHeight()
+            )
         }
         PlayerBar(
             modifier = Modifier
@@ -213,130 +200,3 @@ fun MainScreenContent(
         )
     }
 }
-
-val memberList = listOf(
-    Member(
-        avatar = "image/avatar.jpg",
-        name = "Hoshino",
-        role = "moderator",
-    ),
-    Member(
-        avatar = "image/avatar.jpg",
-        name = "Shiroko",
-        role = "user",
-    )
-)
-
-val queueSongList = listOf(
-    Song(
-        type = "netease",
-        id = "123",
-        title = "きらめき＊Chocolaterie",
-        altTitle = null,
-        url = null,
-        duration = 214200,
-        artists = listOf(
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            )
-        ),
-        album = Album(
-            type = "netease",
-            id = "123",
-            title = "きらめき＊Chocolaterie",
-            altTitle = null,
-            imgUrl = "image/album_cover.png",
-            songs = null,
-            artists = null
-        )
-    ),
-    Song(
-        type = "netease",
-        id = "123",
-        title = "きらめき＊Chocolaterie",
-        altTitle = null,
-        url = null,
-        duration = 214200,
-        artists = listOf(
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            ),
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            )
-        ),
-        album = Album(
-            type = "netease",
-            id = "123",
-            title = "きらめき＊Chocolaterie",
-            altTitle = null,
-            imgUrl = "image/album_cover.png",
-            songs = null,
-            artists = null
-        )
-    ),
-    Song(
-        type = "netease",
-        id = "123",
-        title = "きらめき＊Chocolaterie",
-        altTitle = null,
-        url = null,
-        duration = 214200,
-        artists = listOf(
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            ),
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            ),
-            Artist(
-                type = "netease",
-                id = "123",
-                name = "KyoKa",
-                altName = null,
-                imgUrl = null,
-                songs = null,
-                albums = null
-            )
-        ),
-        album = Album(
-            type = "netease",
-            id = "123",
-            title = "きらめき＊Chocolaterie",
-            altTitle = null,
-            imgUrl = "image/album_cover.png",
-            songs = null,
-            artists = null
-        )
-    )
-)

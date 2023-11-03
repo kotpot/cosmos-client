@@ -1,7 +1,6 @@
 package org.kotpot.cosmos.desktop.ui.component.business
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -11,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,13 +23,13 @@ fun ListCard(
     icon: ImageVector,
     title: String,
     additionalText: String,
-    listContent: LazyListScope.() -> Unit
+    isFolded: Boolean,
+    onFoldClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    listContent: LazyListScope.() -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface.copy(0.72f), MaterialTheme.shapes.small)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(0.72f), MaterialTheme.shapes.small),
+        modifier = modifier,
     ) {
         Row(
             modifier = Modifier
@@ -54,23 +55,30 @@ fun ListCard(
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = CosmosIcons.ExpandLess,
-                contentDescription = "Expand More"
+                contentDescription = "Expand More",
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .clickable { onFoldClick() }
+                    .rotate(if (isFolded) 180f else 0f)
             )
         }
-        Divider(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .fillMaxWidth()
-                .height(1.dp),
-            color = MaterialTheme.colorScheme.outlineVariant
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            listContent()
+        if (!isFolded) {
+            Divider(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth()
+                    .height(1.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                listContent()
+            }
         }
     }
 }
