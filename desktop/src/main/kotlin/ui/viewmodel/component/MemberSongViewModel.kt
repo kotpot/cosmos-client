@@ -2,10 +2,6 @@ package org.kotpot.cosmos.desktop.ui.viewmodel.component
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import org.kotpot.cosmos.desktop.ui.state.component.MemberSongState
 import org.kotpot.cosmos.shared.model.Album
 import org.kotpot.cosmos.shared.model.Artist
 import org.kotpot.cosmos.shared.model.Member
@@ -13,11 +9,6 @@ import org.kotpot.cosmos.shared.model.Song
 import org.kotpot.cosmos.shared.viewmodel.ViewModel
 
 class MemberSongViewModel : ViewModel() {
-
-    @Deprecated("")
-    private val _uiState = MutableStateFlow(MemberSongState())
-    @Deprecated("")
-    val uiState = _uiState.asStateFlow()
 
     val members = mutableStateListOf<Member>()
     val songs = mutableStateListOf<Song>()
@@ -34,39 +25,9 @@ class MemberSongViewModel : ViewModel() {
     init {
         members.addAll(memberList)
         songs.addAll(queueSongList)
-        _uiState.update {
-            it.copy(
-                member = memberList,
-                queue = queueSongList
-            )
-        }
     }
 
     fun expand(type: ExpandType) {
-        expandState.value = type
-    }
-
-    @Deprecated("use expand")
-    fun foldList(targetList: String) {
-//        _uiState.update { state ->
-//            when (targetList) {
-//                "Member" -> state.copy(
-//                    isMemberFolded = !state.isMemberFolded,
-//                    isQueueFolded = state.isQueueFolded && state.isMemberFolded
-//                )
-//
-//                "Queue" -> state.copy(
-//                    isQueueFolded = !state.isQueueFolded,
-//                    isMemberFolded = state.isMemberFolded && state.isQueueFolded
-//                )
-//
-//                else -> state
-//            }
-//        }
-        val type = when(targetList) {
-            "Member" -> ExpandType.Member
-            else -> ExpandType.Queue
-        }
         expandState.value = type
     }
 }
