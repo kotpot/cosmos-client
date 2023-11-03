@@ -53,8 +53,7 @@ private val SmallBottomShape
 private fun Modifier.roomSideContentBackground() = background(DEFAULT_BACKGROUND_COLOR, DEFAULT_SHAPE)
 
 private val RoomSideContentModifier
-    @Composable
-    get() = Modifier.roomSideContentBackground()
+    @Composable get() = Modifier.roomSideContentBackground()
         .border(1.dp, DEFAULT_BORDER_COLOR.copy(DEFAULT_COLOR_ALPHA), DEFAULT_SHAPE)
 
 private val RoomSideContentTopModifier
