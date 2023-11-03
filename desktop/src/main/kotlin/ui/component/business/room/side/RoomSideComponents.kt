@@ -8,9 +8,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
+import org.kotpot.cosmos.desktop.ui.icon.ExpandLess
 import org.kotpot.cosmos.shared.ui.ext.StatefulWidget
 
 
@@ -18,12 +22,13 @@ import org.kotpot.cosmos.shared.ui.ext.StatefulWidget
 fun RoomSideListHeader(
     icon: ImageVector,
     title: String,
+    expand: () -> Boolean,
     additional: () -> String,
     onFoldClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 8.dp).clickable(onClick = onFoldClick)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         Icon(
             imageVector = icon,
@@ -45,14 +50,16 @@ fun RoomSideListHeader(
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-//        Icon(
-//            imageVector = CosmosIcons.ExpandLess,
-//            contentDescription = "Expand More",
-//            modifier = Modifier
-//                .clip(MaterialTheme.shapes.small)
-//                .clickable { onFoldClick() }
-//                .rotate(if (isFolded) 180f else 0f)
-//        )
+        StatefulWidget<Boolean>(expand) {
+            Icon(
+                imageVector = CosmosIcons.ExpandLess,
+                contentDescription = "Expand More",
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .clickable(onClick = onFoldClick)
+                    .rotate(if (it) 180f else 0f)
+            )
+        }
     }
 }
 

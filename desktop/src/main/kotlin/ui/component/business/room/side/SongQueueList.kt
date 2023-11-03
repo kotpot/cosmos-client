@@ -1,7 +1,6 @@
 package org.kotpot.cosmos.desktop.ui.component.business.room.side
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.items
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import org.kotpot.cosmos.desktop.locale.from
 import org.kotpot.cosmos.desktop.locale.string.LocaleString
 import org.kotpot.cosmos.desktop.ui.icon.CosmosIcons
-import org.kotpot.cosmos.desktop.ui.icon.Group
+import org.kotpot.cosmos.desktop.ui.icon.QueueMusic
 import org.kotpot.cosmos.desktop.util.formatMilliseconds
 import org.kotpot.cosmos.shared.model.Song
 import org.kotpot.cosmos.shared.model.flattenName
@@ -43,9 +42,12 @@ fun ColumnScope.SongQueueCard(
 ) = RoomSideExpandableListCard(
     provider.isExpand,
     header = {
-        Header( { provider.additional },
-        action.expand
-    ) }
+        Header(
+            provider.isExpand,
+            { provider.additional },
+            action.expand
+        )
+    }
 ) {
     items(provider.requireSongs()) {
         SongQueueItem(it)
@@ -54,13 +56,15 @@ fun ColumnScope.SongQueueCard(
 
 @Composable
 private fun Header(
+    expand: () -> Boolean,
     additional: () -> String,
     onFoldClick: () -> Unit
 ) = RoomSideListHeader(
-    icon = CosmosIcons.Group,
+    icon = CosmosIcons.QueueMusic,
     title = LocaleString::mainQueueListTitle.from(),
+    expand = expand,
     additional = additional,
-    onFoldClick = onFoldClick
+    onFoldClick = onFoldClick,
 )
 
 

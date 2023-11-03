@@ -42,10 +42,13 @@ fun ColumnScope.MemberListCard(
     action: MemberListCardStateActions,
 ) = RoomSideExpandableListCard(
     provider.isExpand,
-    header = { Header(
-        { provider.requireMembers().size.toString() },
-        action.expand
-    ) }
+    header = {
+        Header(
+            provider.isExpand,
+            { provider.requireMembers().size.toString() },
+            action.expand
+        )
+    }
 ) {
     items(provider.requireMembers()) {
         MemberListItem(it)
@@ -57,11 +60,13 @@ fun ColumnScope.MemberListCard(
 
 @Composable
 private fun Header(
+    expand: () -> Boolean,
     additional: () -> String,
     onFoldClick: () -> Unit
 ) = RoomSideListHeader(
     icon = CosmosIcons.Group,
     title = LocaleString::mainMemberListTitle.from(),
+    expand = expand,
     additional = additional,
     onFoldClick = onFoldClick
 )

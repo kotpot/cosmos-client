@@ -28,7 +28,17 @@ class MemberSongViewModel : ViewModel() {
     }
 
     fun expand(type: ExpandType) {
-        expandState.value = type
+        expandState.value = when (type) {
+            ExpandType.Member -> {
+                if (expandState.value.isMember()) ExpandType.Queue
+                else ExpandType.Member
+            }
+
+            ExpandType.Queue -> {
+                if (expandState.value.isQueue()) ExpandType.Member
+                else ExpandType.Queue
+            }
+        }
     }
 }
 
