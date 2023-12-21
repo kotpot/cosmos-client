@@ -14,3 +14,4 @@ rootProject.name = "cosmos-client"
 include("shared")
 include("desktop")
 include("cosmos-protocol")
+include("shared:network")

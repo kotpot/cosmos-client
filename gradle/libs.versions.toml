@@ -1,12 +1,19 @@
 [versions]
-kotlin = "1.9.0"
-compose = "1.5.1"
+kotlin = "1.9.21"
+compose = "1.5.11"
 ktor = "2.3.4"
 koin = "3.5.0"
 koin-compose = "1.1.0"
 vlcj = "4.8.2"
 
+wire = "4.9.3"
+
 [libraries]
+
+wire-plugin = { group ="com.squareup.wire", name="wire-gradle-plugin", version.ref = "wire" }
+wire-runtime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire"}
+wire-client = { module = "com.squareup.wire:wire-grpc-client", version.ref = "wire"}
+
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
@@ -24,5 +31,6 @@ vlcj = { group = "uk.co.caprica", name = "vlcj", version.ref = "vlcj" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+wire = { id="com.squareup.wire", version.ref = "wire" }
 
 [bundles]

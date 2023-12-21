@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package request;
+
+service WireTest {
+  // A simple RPC.
+  rpc HelloWire(HelloReq) returns (HelloResp) {}
+}
+
+message HelloReq {
+
+}
+
+message HelloResp {
+
+}

@@ -6,9 +6,14 @@ plugins {
 group = providers.gradleProperty("group").get()
 version = providers.gradleProperty("version").get()
 
+
 kotlin {
     jvm("desktop")
     sourceSets {
+        val desktopMain by getting {
+            dependencies {
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(libs.ktor.client)
@@ -23,13 +28,10 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
+            }
 
-            }
-        }
-        val desktopMain by getting {
-            dependencies {
-                dependsOn(commonMain)
-            }
+            desktopMain.dependsOn(this)
         }
     }
 }
+
