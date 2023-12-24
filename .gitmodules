@@ -1,3 +1,0 @@
-[submodule "cosmos-protocol"]
-	path = cosmos-protocol
-	url = https://github.com/kotpot/cosmos-protocol.git
