@@ -11,7 +11,16 @@ plugins {
 }
 
 rootProject.name = "cosmos-client"
+
+// gradle feature
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include("shared")
 include("desktop")
-include("cosmos-protocol")
 include("shared:network")
+
+includeBuild("plugin-build") {
+    dependencySubstitution {
+        substitute(module("org.kotpot:wire-schema")).using(project(":wire-schema"))
+    }
+}

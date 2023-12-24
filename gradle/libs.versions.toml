@@ -13,6 +13,8 @@ wire = "4.9.3"
 wire-plugin = { group ="com.squareup.wire", name="wire-gradle-plugin", version.ref = "wire" }
 wire-runtime = { module = "com.squareup.wire:wire-runtime", version.ref = "wire"}
 wire-client = { module = "com.squareup.wire:wire-grpc-client", version.ref = "wire"}
+wire-schema = { module = "com.squareup.wire:wire-schema", version.ref = "wire"}
+wire-kotlin-generator = { module = "com.squareup.wire:wire-kotlin-generator", version.ref = "wire"}
 
 ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }

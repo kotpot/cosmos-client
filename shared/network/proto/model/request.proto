@@ -4,7 +4,8 @@ package request;
 
 service WireTest {
   // A simple RPC.
-  rpc HelloWire(HelloReq) returns (HelloResp) {}
+  rpc HelloWire1(HelloReq) returns (HelloResp) {}
+  rpc HelloWire2(HelloReq) returns (HelloResp) {}
 }
 
 message HelloReq {

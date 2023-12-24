@@ -1,3 +1,4 @@
+
 plugins {
     kotlin("multiplatform")
     id("com.squareup.wire")
@@ -6,14 +7,19 @@ plugins {
 group = providers.gradleProperty("group").get()
 version = providers.gradleProperty("version").get()
 
+buildscript {
+    dependencies {
+        classpath("org.kotpot:wire-schema")
+    }
+}
+
 wire {
     sourcePath {
         srcDir("proto")
     }
-    kotlin {
-        android = false
-        javaInterop = false
-        rpcCallStyle = "suspending"
+    custom {
+        schemaHandlerFactory = org.kotpot.krpc.KrpcSchemaHandlerFactory()
+        out = "${buildDir}/generated"
     }
 }
 

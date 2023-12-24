@@ -23,7 +23,6 @@ kotlin {
                 implementation(libs.ktor.loging)
                 api(libs.koin.core)
                 api(libs.vlcj)
-                api(project(":cosmos-protocol"))
 
                 implementation(compose.runtime)
                 implementation(compose.foundation)
