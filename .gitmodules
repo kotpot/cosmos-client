@@ -1,3 +1,6 @@
 [submodule "shared/network/proto"]
 	path = shared/network/proto
 	url = https://github.com/kotpot/cosmos-protocol.git
+[submodule "krpc-wire-plugin"]
+	path = krpc-wire-plugin
+	url = https://github.com/szkug/krpc-wire-plugin.git

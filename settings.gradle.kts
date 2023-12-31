@@ -1,3 +1,11 @@
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("wireLibs") {
+            from(files("krpc-wire-plugin/gradle/libs.versions.toml"))
+        }
+    }
+}
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -19,7 +27,7 @@ include("shared")
 include("desktop")
 include("shared:network")
 
-includeBuild("plugin-build") {
+includeBuild("krpc-wire-plugin") {
     dependencySubstitution {
         substitute(module("org.kotpot:wire-schema")).using(project(":wire-schema"))
     }

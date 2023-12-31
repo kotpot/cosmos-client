@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.wire) apply false
+    alias(wireLibs.plugins.wire) apply false
 }
 
 group = providers.gradleProperty("group").get()

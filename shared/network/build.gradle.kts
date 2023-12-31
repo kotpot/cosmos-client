@@ -1,7 +1,7 @@
 
 plugins {
     kotlin("multiplatform")
-    id("com.squareup.wire")
+    alias(wireLibs.plugins.wire)
 }
 
 group = providers.gradleProperty("group").get()
@@ -18,8 +18,11 @@ wire {
         srcDir("proto")
     }
     custom {
-        schemaHandlerFactory = org.kotpot.krpc.KrpcSchemaHandlerFactory()
+        schemaHandlerFactory = org.szkug.krpc.plugin.KrpcSchemaHandlerFactory()
         out = "${buildDir}/generated"
+        options = mapOf(
+            "rpcRole" to "client"
+        )
     }
 }
 
@@ -42,8 +45,8 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                api(libs.wire.runtime)
-                api(libs.wire.client)
+                api(wireLibs.wire.runtime)
+                api(wireLibs.wire.client)
             }
             iosMain.dependsOn(this)
         }
