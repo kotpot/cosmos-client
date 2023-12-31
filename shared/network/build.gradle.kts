@@ -9,7 +9,7 @@ version = providers.gradleProperty("version").get()
 
 buildscript {
     dependencies {
-        classpath("org.kotpot:wire-schema")
+        classpath("org.szkug.krpc:wire-schema")
     }
 }
 

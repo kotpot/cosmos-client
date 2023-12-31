@@ -29,6 +29,6 @@ include("shared:network")
 
 includeBuild("krpc-wire-plugin") {
     dependencySubstitution {
-        substitute(module("org.kotpot:wire-schema")).using(project(":wire-schema"))
+        substitute(module("org.szkug.krpc:wire-schema")).using(project(":wire-schema"))
     }
 }
