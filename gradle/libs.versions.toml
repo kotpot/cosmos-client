@@ -1,28 +1,50 @@
 [versions]
 kotlin = "1.9.21"
 compose = "1.5.11"
-ktor = "2.3.4"
+ktor = "2.3.7"
 koin = "3.5.0"
 koin-compose = "1.1.0"
 vlcj = "4.8.2"
+agp = "8.2.0"
+coroutines = "1.7.3"
+
+androidx-appcompat = "1.6.1"
+
+compose-bom = "2023.10.01"
+compose-compiler = "1.5.7"
+compose-activity = "1.8.2"
 
 [libraries]
-ktor-client = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 ktor-contentNegotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-protobuf = { group = "io.ktor", name = "ktor-serialization-kotlinx-protobuf", version.ref = "ktor" }
 ktor-loging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin-compose" }
 
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3-desktop", version.ref = "compose" }
 
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+
 vlcj = { group = "uk.co.caprica", name = "vlcj", version.ref = "vlcj" }
+
+agp = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]

@@ -8,6 +8,7 @@ dependencyResolutionManagement {
 
 pluginManagement {
     repositories {
+        google()
         mavenCentral()
         gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
@@ -23,12 +24,17 @@ rootProject.name = "cosmos-client"
 // gradle feature
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include("shared")
-include("desktop")
-include("shared:network")
-
 includeBuild("krpc-wire-plugin") {
     dependencySubstitution {
         substitute(module("org.szkug.krpc:wire-schema")).using(project(":wire-schema"))
     }
 }
+
+// TODO -> remove
+include("shared")
+include("desktop")
+// TODO <- END
+
+include("shared:network")
+include("shared:ui")
+include("apps:android")

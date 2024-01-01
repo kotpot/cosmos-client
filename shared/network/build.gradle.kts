@@ -1,11 +1,8 @@
 
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlin.multiplatform)
     alias(wireLibs.plugins.wire)
 }
-
-group = providers.gradleProperty("group").get()
-version = providers.gradleProperty("version").get()
 
 buildscript {
     dependencies {
@@ -37,18 +34,18 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.client)
-                implementation(libs.ktor.cio)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.cio)
         }
-        val commonMain by getting {
-            dependencies {
-                api(wireLibs.wire.runtime)
-                api(wireLibs.wire.client)
-            }
-            iosMain.dependsOn(this)
+        jvmMain.dependencies {
+            implementation(libs.ktor.okhttp)
+        }
+        commonMain.dependencies {
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.loging)
+            api(libs.coroutines.core)
+            api(wireLibs.wire.runtime)
+            api(wireLibs.wire.client)
         }
     }
 }

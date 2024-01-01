@@ -3,10 +3,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
 }
 
-group = providers.gradleProperty("group").get()
-version = providers.gradleProperty("version").get()
-
-
+// TODO remove this module
 kotlin {
     jvm("desktop")
     sourceSets {
@@ -16,7 +13,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(libs.ktor.client)
+                implementation(libs.ktor.core)
                 implementation(libs.ktor.cio)
                 // implementation(libs.ktor.protobuf)
                 implementation(libs.ktor.contentNegotiation)
